@@ -111,7 +111,7 @@ export default MyForm;
 
 - [`initialValues: Object`](#initialvalues-object);
 - [`onSubmit: Function`](#onsubmit-function);
-- [`validation?: {schema?: Object, schemaType: 'yup' | 'other' = 'yup', validators: Object}`](#validation-schema-object-type-yup--other--yup-validators-object);
+- [`validation?: {schema?: Object, schemaType: 'yup' | 'other' = 'yup', validators: Object}`](#validation-schema-object-schematype-yup--other--yup-validators-object);
 - `context?: Object;`
 
 ##### `initialValues: Object`
