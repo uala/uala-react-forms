@@ -1,7 +1,6 @@
 - Start Date: (fill me in with today's date, YYYY-MM-DD)
-- Target Major Version: (2.x / 3.x)
-- Reference Issues: (fill in existing related issues, if any)
-- Implementation PR: (leave this empty)
+- RFC PR: (leave this empty)
+- React Issue: (leave this empty)
 
 # Summary
 
@@ -25,7 +24,7 @@ closely to the solution you have in mind.
 # Detailed design
 
 This is the bulk of the RFC. Explain the design in enough detail for somebody
-familiar with Vue to understand, and for somebody familiar with the
+familiar with React to understand, and for somebody familiar with the
 implementation to implement. This should get into specifics and corner-cases,
 and include examples of how the feature is used. Any new terminology should be
 defined here.
@@ -36,9 +35,9 @@ Why should we *not* do this? Please consider:
 
 - implementation cost, both in term of code size and complexity
 - whether the proposed feature can be implemented in user space
-- the impact on teaching people Vue
+- the impact on teaching people React
 - integration of this feature with other existing and planned features
-- cost of migrating existing Vue applications (is it a breaking change?)
+- cost of migrating existing React applications (is it a breaking change?)
 
 There are tradeoffs to choosing any path. Attempt to identify them here.
 
@@ -48,8 +47,20 @@ What other designs have been considered? What is the impact of not doing this?
 
 # Adoption strategy
 
-If we implement this proposal, how will existing Vue developers adopt it? Is
-this a breaking change? Can we write a codemod? Can we provide a runtime adapter library for the original API it replaces? How will this affect other projects in the Vue ecosystem?
+If we implement this proposal, how will existing React developers adopt it? Is
+this a breaking change? Can we write a codemod? Should we coordinate with
+other projects or libraries?
+
+# How we teach this
+
+What names and terminology work best for these concepts and why? How is this
+idea best presented? As a continuation of existing React patterns?
+
+Would the acceptance of this proposal mean the React documentation must be
+re-organized or altered? Does it change how React is taught to new developers
+at any level?
+
+How should this feature be taught to existing React developers?
 
 # Unresolved questions
 
