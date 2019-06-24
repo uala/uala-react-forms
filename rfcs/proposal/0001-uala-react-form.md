@@ -7,7 +7,30 @@ An easy and repeatable way to build forms across all the frontend applications m
 
 # Basic example
 
+Wrap your input using the HOC provided by the library
+
 ```jsx
+import { asFormInput } from 'uala/uala-react-form';
+
+const MyInput = ({ name, onChange }) => (
+    <input
+        type="text"
+        id={name}
+        name={name}
+        onChange={e => onChange(name, !!e.target.checked)}
+    />
+);
+
+export default asFormInput(MyInput);
+```
+
+Then build your form using your wrapped input and the `Form` component.
+
+```jsx
+import Form from 'uala/uala-react-form';
+
+import MyInput from './MyInput.js'
+
 const MyForm = () => {
     const initialValues = {
         firstName: '',
@@ -18,13 +41,15 @@ const MyForm = () => {
 
     return (
         <Form initialValues={initialValues} onSubmit={handleSubmit}>
-            <input name="firstName" />
-            <input name="lastName" />
+            <MyInput name="firstName" />
+            <MyInput name="lastName" />
             
             <input type="submit" />
         </Form>
     );
 }
+
+export default MyForm;
 ```
 
 # Motivation
