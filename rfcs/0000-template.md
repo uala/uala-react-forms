@@ -1,6 +1,6 @@
 - Start Date: (fill me in with today's date, YYYY-MM-DD)
 - RFC PR: (leave this empty)
-- React Issue: (leave this empty)
+- Issue: (leave this empty)
 
 # Summary
 
@@ -37,7 +37,7 @@ Why should we *not* do this? Please consider:
 - whether the proposed feature can be implemented in user space
 - the impact on teaching people the UALA platform
 - integration of this feature with other existing and planned features
-- cost of migrating existing React applications (is it a breaking change?)
+- cost of migrating existing applications (is it a breaking change?)
 
 There are tradeoffs to choosing any path. Attempt to identify them here.
 
@@ -54,10 +54,10 @@ other projects or libraries?
 # How we teach this
 
 What names and terminology work best for these concepts and why? How is this
-idea best presented? As a continuation of existing React patterns?
+idea best presented? As a continuation of existing patterns?
 
-Would the acceptance of this proposal mean the React documentation must be
-re-organized or altered? Does it change how React is taught to new developers
+Would the acceptance of this proposal mean the documentation must be
+re-organized or altered? Does it change how the the UALA platform is taught to new developers
 at any level?
 
 How should this feature be taught to existing developers?
