@@ -24,7 +24,7 @@ closely to the solution you have in mind.
 # Detailed design
 
 This is the bulk of the RFC. Explain the design in enough detail for somebody
-familiar with React to understand, and for somebody familiar with the
+familiar with the UALA platform to understand, and for somebody familiar with the
 implementation to implement. This should get into specifics and corner-cases,
 and include examples of how the feature is used. Any new terminology should be
 defined here.
@@ -35,7 +35,7 @@ Why should we *not* do this? Please consider:
 
 - implementation cost, both in term of code size and complexity
 - whether the proposed feature can be implemented in user space
-- the impact on teaching people React
+- the impact on teaching people the UALA platform
 - integration of this feature with other existing and planned features
 - cost of migrating existing React applications (is it a breaking change?)
 
@@ -47,7 +47,7 @@ What other designs have been considered? What is the impact of not doing this?
 
 # Adoption strategy
 
-If we implement this proposal, how will existing React developers adopt it? Is
+If we implement this proposal, how will existing developers adopt it? Is
 this a breaking change? Can we write a codemod? Should we coordinate with
 other projects or libraries?
 
@@ -60,7 +60,7 @@ Would the acceptance of this proposal mean the React documentation must be
 re-organized or altered? Does it change how React is taught to new developers
 at any level?
 
-How should this feature be taught to existing React developers?
+How should this feature be taught to existing developers?
 
 # Unresolved questions
 
