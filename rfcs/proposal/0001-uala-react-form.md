@@ -67,6 +67,12 @@ of either HOCs (Higher Order Components) or hooks or both whenever we can.
 
 # Detailed design
 
+We're going now to give a detailed and in-depth description about use cases, interfaces and integration examples.
+We aim to provide in this section the API we'd like to have and how to use them.
+
+Furthermore, we want to be sure that most common patterns and problems are covered, in order to be able to provide
+a better estimation time for the actual implementation.
+
 ## Components
 
 At the current state, Uala React Forms offers one component, the `Form`, which should be always used as a wrapper on top of your form.
