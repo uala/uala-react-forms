@@ -111,8 +111,8 @@ export default MyForm;
 
 - [`initialValues: Object`](#initialvalues-object);
 - [`onSubmit: Function`](#onsubmit-function);
-- `validation?: Object`;
-- `context ?: Object;`
+- [`validation?: {schema?: Object, schemaType: 'yup' | 'other' = 'yup', validators: Object}`](#validation-schema-object-type-yup--other--yup-validators-object);
+- `context?: Object;`
 
 ##### `initialValues: Object`
 
@@ -121,6 +121,10 @@ Required. This props is an object representing the initial form state. We expect
 ##### `onSubmit: Function`
 
 Required. This is the callback invoked after the submit event. Validators and other checks should be consumed and triggered before the callback.
+
+##### `validation?: {schema?: Object, schemaType: 'yup' | 'other' = 'yup', validators: Object}`
+
+Optional. The validation to be applied.
 
 ## HOC
 
