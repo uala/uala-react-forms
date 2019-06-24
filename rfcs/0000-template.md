@@ -1,4 +1,5 @@
 - Start Date: (fill me in with today's date, YYYY-MM-DD)
+- Contributors: (fill me with the contributors full name, John Doe)
 - RFC PR: (leave this empty)
 - Issue: (leave this empty)
 
@@ -43,7 +44,7 @@ There are tradeoffs to choosing any path. Attempt to identify them here.
 
 # Alternatives
 
-What other designs have been considered? What is the impact of not doing this?
+What other designs/libraries have been considered? What is the impact of not doing this?
 
 # Adoption strategy
 
@@ -51,7 +52,7 @@ If we implement this proposal, how will existing developers adopt it? Is
 this a breaking change? Can we write a codemod? Should we coordinate with
 other projects or libraries?
 
-# How we teach this
+# How we teach this (optional)
 
 What names and terminology work best for these concepts and why? How is this
 idea best presented? As a continuation of existing patterns?
@@ -62,7 +63,7 @@ at any level?
 
 How should this feature be taught to existing developers?
 
-# Unresolved questions
+# Unresolved questions (optional)
 
 Optional, but suggested for first drafts. What parts of the design are still
 TBD?
