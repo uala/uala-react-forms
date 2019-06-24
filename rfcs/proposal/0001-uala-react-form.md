@@ -126,6 +126,41 @@ Required. This is the callback invoked after the submit event. Validators and ot
 
 Optional. The validation to be applied.
 
+```jsx
+import React from 'react';
+import validationSchema from './validationSchema';
+
+import Form from 'uala/uala-react-form';
+
+const MyForm = () => {
+    const initialValues = {
+        firstName: '',
+        lastName: ''
+    };
+    
+    // NOTE: We're assuming a YUP schema in this example
+    const validation = {
+        schema: validationSchema
+    };
+
+    const handleSubmit({ values }) => { console.log({ ...values })};
+
+    return (
+        <Form
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validation={validation}
+        >
+            // several inputs may appear here
+            [...]
+            <input type="submit" />
+        </Form>
+    );
+}
+
+export default MyForm;
+```
+
 ## HOC
 
 TBD.
