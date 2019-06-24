@@ -67,7 +67,53 @@ of either HOCs (Higher Order Components) or hooks or both whenever we can.
 
 # Detailed design
 
-TODO
+## Components
+
+At the current state, Uala React Forms offers one component, the `Form`, which should be always used as a wrapper on top of your form.
+
+### Form
+
+This the top level wrapper component. It provides validation support, submit handling and much more.
+
+#### Basic Example
+
+```jsx
+import React from 'react';
+
+import Form from 'uala/uala-react-form';
+
+const MyForm = () => {
+    const initialValues = {
+        firstName: '',
+        lastName: ''
+    };
+
+    const handleSubmit({ values }) => { console.log({ ...values })};
+
+    return (
+        <Form initialValues={initialValues} onSubmit={handleSubmit}>
+            // several inputs may appear here
+            [...]
+            <input type="submit" />
+        </Form>
+    );
+}
+
+export default MyForm;
+```
+#### Props
+
+- `initialValues: Object`;
+- `onSubmit: Function`;
+- `withValidation?: Object`;
+
+## HOC
+
+TBD.
+
+## Hooks
+
+TBD.
 
 # Drawbacks
 
