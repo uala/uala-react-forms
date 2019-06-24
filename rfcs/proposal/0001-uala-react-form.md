@@ -10,24 +10,23 @@ An easy and repeatable way to build forms across all the frontend applications m
 Wrap your input using the HOC provided by the library
 
 ```jsx
-import { asFormInput } from 'uala/uala-react-form';
+import { asFormItem } from 'uala/uala-react-form';
 
 const MyInput = ({ name, onChange }) => (
     <input
-        type="text"
-        id={name}
         name={name}
-        onChange={e => onChange(name, !!e.target.checked)}
+        onChange={e => onChange(name, e.target.value)}
     />
 );
 
-export default asFormInput(MyInput);
+export default asFormItem(MyInput);
 ```
 
 Then build your form using your wrapped input and the `Form` component.
 
 ```jsx
-import Form from 'uala/uala-react-form';
+import { asForm } from 'uala/uala-react-form';
+import schema from './MyForm.schema';
 
 import MyInput from './MyInput.js'
 
@@ -49,7 +48,7 @@ const MyForm = () => {
     );
 }
 
-export default MyForm;
+export default asForm({ schema, schemaType: 'yup' })(MyForm);
 ```
 
 # Motivation
@@ -86,7 +85,7 @@ This the top level wrapper component. It provides validation support, submit han
 ```jsx
 import React from 'react';
 
-import Form from 'uala/uala-react-form';
+import { asForm } from 'uala/uala-react-form';
 
 const MyForm = () => {
     const initialValues = {
@@ -105,7 +104,7 @@ const MyForm = () => {
     );
 }
 
-export default MyForm;
+export default asForm()(MyForm);
 ```
 #### Props
 
@@ -130,7 +129,7 @@ Optional. The validation to be applied.
 import React from 'react';
 import validationSchema from './validationSchema';
 
-import Form from 'uala/uala-react-form';
+import { asForm } from 'uala/uala-react-form';
 
 const MyForm = () => {
     const initialValues = {
@@ -158,7 +157,7 @@ const MyForm = () => {
     );
 }
 
-export default MyForm;
+export default asForm()(MyForm);
 ```
 
 ## HOC
