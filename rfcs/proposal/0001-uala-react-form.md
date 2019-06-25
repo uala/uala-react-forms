@@ -66,12 +66,10 @@ We aim to provide an easy-to-use, repeatable and clean solution to implement and
 
 Goals and features we want to achieve and support:
 
-- custom opt-in validation (via either validation schemas like Yup or just validation functions);
-- initial/default values;
-- custom input components in order to allow virtually any L&F, theme, etc.;
+- custom opt-in validation (via either validation schemas like Yup or just validation functions), initial/default values;
+- no UI dependencies :heart:;, allow custom input components in order to support virtually any L&F, theme, etc. ;
 - clean, understandable and short syntax, which includes having as much auto-wiring as possible and usage
 of either HOCs (Higher Order Components) or hooks or both whenever we can.
-- No UI dependencies :heart:;
 
 # Detailed design
 
