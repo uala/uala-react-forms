@@ -95,28 +95,47 @@ It's also responsible to pass the  `onSubmit()`, `onChange()`, `onBlur()`, `onFo
 
 #### `connectForm()` Parameters
 
-`connectForm()` accept one parameter, which namely is a configuration object and it's optional. By convention, the parameter is
+`connectForm()` accept one parameter, which is a configuration object and it's optional. By convention, the parameter is called `options`, described as shown below:
 
-- `config?: {schema: Object, schemaVendor: string, validationMode: string}`;
+- [`options?: Object`](#options-object);
 
-##### `schema`
+```js
+{
+  schema?: Object,
+  schemaVendor?: string,
+  validationMode?: string,
+  statePropagation?: boolean,
+  context?: Object
+}
+```
+##### `options?: Object`
 
-A valid validation schema, like YUP. Initial values are taken using schema defaults.
+|Parameter|Type|Default Value|Description|
+|----|----|----|----|
+|schema|Object|`null`|The validation schema used to validate your form. Default values are used during form initialization.|
+|schemaVendor|string|`'yup'`|The name of the schema vendor, (e.g. 'yup', 'joi')|
+|validationMode|string|`'onSubmit'`|Define when the form is validated. Allowed values are `'onSubmit'|'onBlur'|'onChange'`|
+|statePropagation|boolean|`false`|Enable the form state propagation, allowing children to access the parent state.|
+|context|Object|`null`|External context (e.g. your redux state), mostly used as a schema context.
 
-##### `schemaVendor`
+#### `connectFormElement()`
 
-The schema vendor name, e.g. 'yup'.
+`connectFormElement()` accept one argument, which is mandatory and it's the component you want to wire. Here's the list of the injected props:
 
-##### `validationMode`
-
-The event used to trigger the validation, as string: 'onBlur', 'onSubmit', 'onChange'. Default is set to 'onSubmit'.
-
-##### 
-
-### `connectFormElement()`
-
-TBD.
-
+```js
+{
+  values: Object,
+  errors: Object,
+  focusedInputKey: string,
+  onFocus: Function,
+  onChange: Function,
+  onBlur: Function,
+  onDidChanged: Function,
+  onSubmit: Function,
+  emitEvent: Function,
+  formState: string
+}
+```
 # Drawbacks
 
 Currently, the only possible drawback could be the time required to actually implement the library (needs evaluation though).
