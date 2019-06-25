@@ -7,10 +7,20 @@ An easy and repeatable way to build forms across all the frontend applications m
 
 # Basic example
 
-Wrap your input using the HOC provided by the library
+1. Build your own form wrapper using the `connectForm()` HOC.
 
 ```jsx
-import { asFormInput } from 'uala/uala-react-form';
+import { connectForm } from 'uala/uala-react-form';
+
+const MyForm = ({ onSubmit, children }) => <form>{children}</form>;
+
+export default connectForm()(MyForm);
+```
+
+2. Wrap your inputs using the `wireToFormValues` HOC.
+
+```jsx
+import { wireToFormValues } from 'uala/uala-react-form';
 
 const MyInput = ({ name, onChange }) => (
     <input
@@ -21,17 +31,16 @@ const MyInput = ({ name, onChange }) => (
     />
 );
 
-export default asFormInput(MyInput);
+export default wireToFormValues(MyInput);
 ```
 
-Then build your form using your wrapped input and the `Form` component.
+3. You can now build your form using the wrapped components you just defined.
 
 ```jsx
-import Form from 'uala/uala-react-form';
-
 import MyInput from './MyInput.js'
+import MyForm from './MyForm.js'
 
-const MyForm = () => {
+const MyFormContainer = () => {
     const initialValues = {
         firstName: '',
         lastName: ''
@@ -49,7 +58,7 @@ const MyForm = () => {
     );
 }
 
-export default MyForm;
+export default MyFormContainer;
 ```
 
 # Motivation
@@ -73,99 +82,16 @@ We aim to provide in this section the API we'd like to have and how to use them.
 Furthermore, we want to be sure that most common patterns and problems are covered, in order to be able to provide
 a better estimation time for the actual implementation.
 
-## Components
+## API Reference
 
-At the current state, Uala React Forms offers one component, the `Form`, which should be always used as a wrapper on top of your form.
+    - [`connectForm()`](#connectform);
+    - [`wireToFormValues()`](#wiretoformvalues);
 
-### Form
-
-This the top level wrapper component. It provides validation support, submit handling and much more.
-
-#### Basic Example
-
-```jsx
-import React from 'react';
-
-import Form from 'uala/uala-react-form';
-
-const MyForm = () => {
-    const initialValues = {
-        firstName: '',
-        lastName: ''
-    };
-
-    const handleSubmit({ values }) => { console.log({ ...values })};
-
-    return (
-        <Form initialValues={initialValues} onSubmit={handleSubmit}>
-            // several inputs may appear here
-            [...]
-            <input type="submit" />
-        </Form>
-    );
-}
-
-export default MyForm;
-```
-#### Props
-
-- [`initialValues: Object`](#initialvalues-object);
-- [`onSubmit: Function`](#onsubmit-function);
-- [`validation?: {schema?: Object, schemaType: 'yup' | 'other' = 'yup', validators: Object}`](#validation-schema-object-schematype-yup--other--yup-validators-object);
-- `context?: Object;`
-
-##### `initialValues: Object`
-
-Required. This props is an object representing the initial form state. We expect object to props to have a 1:1 match within the form inputs (matching by name)
-
-##### `onSubmit: Function`
-
-Required. This is the callback invoked after the submit event. Validators and other checks should be consumed and triggered before the callback.
-
-##### `validation?: {schema?: Object, schemaType: 'yup' | 'other' = 'yup', validators: Object}`
-
-Optional. The validation to be applied.
-
-```jsx
-import React from 'react';
-import validationSchema from './validationSchema';
-
-import Form from 'uala/uala-react-form';
-
-const MyForm = () => {
-    const initialValues = {
-        firstName: '',
-        lastName: ''
-    };
-    
-    // NOTE: We're assuming a YUP schema in this example
-    const validation = {
-        schema: validationSchema
-    };
-
-    const handleSubmit({ values }) => { console.log({ ...values })};
-
-    return (
-        <Form
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-            validation={validation}
-        >
-            // several inputs may appear here
-            [...]
-            <input type="submit" />
-        </Form>
-    );
-}
-
-export default MyForm;
-```
-
-## HOC
+### connectForm()
 
 TBD.
 
-## Hooks
+### wireToFormValues()
 
 TBD.
 
