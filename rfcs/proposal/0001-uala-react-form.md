@@ -97,7 +97,19 @@ It's also responsible to pass the  `onSubmit()`, `onChange()`, `onBlur()`, `onFo
 
 `connectForm()` accept one parameter, which namely is a configuration object and it's optional. By convention, the parameter is
 
-- `config?: { validation: { schema: Object, vendor: string, mode: string} }`;
+- `config?: {schema: Object, schemaVendor: string, validationMode: string}`;
+
+##### schema
+
+A valid validation schema, like YUP. Initial values are taken using schema defaults.
+
+##### schemaVendor
+
+The schema vendor name, e.g. 'yup'.
+
+##### validationMode
+
+The event used to trigger the validation, as string: 'onBlur', 'onSubmit', 'onChange'. Default is set to 'onSubmit'.
 
 ##### 
 
