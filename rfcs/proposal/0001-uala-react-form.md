@@ -17,21 +17,21 @@ const MyForm = ({ onSubmit, children }) => <form>{children}</form>;
 export default connectForm()(MyForm);
 ```
 
-2. Wrap your inputs using the `wireToFormValues` HOC.
+2. Wrap your inputs using the `connectFormValues` HOC.
 
 ```jsx
-import { wireToFormValues } from 'uala/uala-react-form';
+import { connectFormValues } from 'uala/uala-react-form';
 
 const MyInput = ({ name, onChange }) => (
     <input
         type="text"
         id={name}
         name={name}
-        onChange={e => onChange(name, !!e.target.checked)}
+        onChange={e => onChange(name, e.target.value)}
     />
 );
 
-export default wireToFormValues(MyInput);
+export default connectFormValues(MyInput);
 ```
 
 3. You can now build your form using the wrapped components you just defined.
@@ -85,13 +85,13 @@ a better estimation time for the actual implementation.
 ## API Reference
 
     - [`connectForm()`](#connectform);
-    - [`wireToFormValues()`](#wiretoformvalues);
+    - [`connectFormValues()`](#connectformvalues);
 
-### connectForm()
+### `connectForm()`
 
 TBD.
 
-### wireToFormValues()
+### `connectFormValues()`
 
 TBD.
 
