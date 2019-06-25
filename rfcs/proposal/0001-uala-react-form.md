@@ -89,7 +89,17 @@ a better estimation time for the actual implementation.
 
 ### `connectForm()`
 
-TBD.
+The `connectForm()` function connects a the React component you want to use as form wrapper to the form state.
+
+It's also responsible to pass the  `onSubmit()`, `onChange()`, `onBlur()`, `onFocus()` and `onDidChange()` listeners to your component.
+
+#### `connectForm()` Parameters
+
+`connectForm()` accept one parameter, which namely is a configuration object and it's optional. By convention, the parameter is
+
+- `config?: { validation: { schema: Object, vendor: string, mode: string} }`;
+
+##### 
 
 ### `connectFormValues()`
 
