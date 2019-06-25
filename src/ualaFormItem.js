@@ -5,11 +5,12 @@ const ualaFormItem = Target => {
   function FormItem(props) {
     return (
       <Consumer>
-        {({ values, errors, onChange }) => (
+        {({ values, errors, onChange, emitEvent }) => (
           <Target
             values={values}
             errors={errors}
             onChange={onChange}
+            emitEvent={emitEvent}
             {...props}
           />
         )}
