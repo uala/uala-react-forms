@@ -104,8 +104,7 @@ It's also responsible to pass the  `onSubmit()`, `onChange()`, `onBlur()`, `onFo
   schema?: Object,
   schemaVendor?: string,
   validationMode?: string,
-  statePropagation?: boolean,
-  context?: Object
+  statePropagation?: boolean
 }
 ```
 ##### `options?: Object`
@@ -116,7 +115,6 @@ It's also responsible to pass the  `onSubmit()`, `onChange()`, `onBlur()`, `onFo
 |schemaVendor|string|`'yup'`|The name of the schema vendor, (e.g. 'yup', 'joi')|
 |validationMode|string|`'onSubmit'`|Define when the form is validated. Allowed values are `'onSubmit'|'onBlur'|'onChange'`|
 |statePropagation|boolean|`false`|Enable the form state propagation, allowing children to access the parent state.|
-|context|Object|`null`|External context (e.g. your redux state), mostly used as a schema context.
 
 #### `connectFormElement()`
 
