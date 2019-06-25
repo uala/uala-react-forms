@@ -85,7 +85,7 @@ a better estimation time for the actual implementation.
 ## API Reference
 
 - [`connectForm()`](#connectform);
-- [`connectFormElement()`](#connectformvalues);
+- [`connectFormElement()`](#connectformelement);
 
 ### `connectForm()`
 
