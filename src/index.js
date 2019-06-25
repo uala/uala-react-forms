@@ -1,4 +1,4 @@
-import connectFormElement from "./connectFormElement";
-import connectForm from "./connectForm";
+import connectFormElement from './connectFormElement';
+import connectForm from './connectForm';
 
 export { connectForm, connectFormElement };

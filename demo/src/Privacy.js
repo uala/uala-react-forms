@@ -1,8 +1,7 @@
-import React from "react";
-import { connectFormElement } from "../../src";
+import React from 'react';
+import { connectFormElement } from '../../src';
 
-export function Privacy({ values }) {
-  return <div className="Privacy">{values.notification_type}</div>;
-}
+// eslint-disable-next-line react/prop-types, camelcase
+const Privacy = ({ values: notification_type }) => <div className="Privacy">{notification_type}</div>;
 
 export default connectFormElement(Privacy);

@@ -1,15 +1,19 @@
-import React from "react";
-import { connectFormElement } from "../../src";
+import React from 'react';
+import { connectFormElement } from '../../src';
 
-export function Checkbox({ name, onChange }) {
-  return (
-    <div className="Checkbox">
+// eslint-disable-next-line react/prop-types
+const Checkbox = ({ name, onChange }) => (
+  <div className="Checkbox">
+    <label htmlFor={name}>
+      Checkbox
       <input
+        id={name}
+        name={name}
         type="checkbox"
         onChange={e => onChange(name, !!e.target.checked)}
       />
-    </div>
-  );
-}
+    </label>
+  </div>
+);
 
 export default connectFormElement(Checkbox);

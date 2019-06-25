@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import { Provider } from "./context";
+import React, { useState } from 'react';
+import { Provider } from './context';
 
-const connectForm = Target => {
+const connectForm = (Target) => {
   function Form(props) {
     const [values, setValues] = useState({});
-    const onChange = (name, value) =>
-      emitEvent({ type: "onchange", name, value });
 
     const emitEvent = ({ type, name, value }) => {
       switch (type) {
-        case "onchange":
+        case 'onchange':
           setValues({ ...values, [name]: value });
           break;
         default:
           break;
       }
     };
+
+    const onChange = (name, value) => emitEvent({ type: 'onchange', name, value });
 
     return (
       <Provider value={{ values, onChange, emitEvent }}>
@@ -24,9 +24,7 @@ const connectForm = Target => {
     );
   }
 
-  Form.displayName = `ualaForm(${Target.displayName ||
-    Target.name ||
-    "Component"})`;
+  Form.displayName = `connectForm(${Target.displayName || Target.name || 'Component'})`;
 
   return Form;
 };

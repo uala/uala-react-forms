@@ -1,8 +1,8 @@
-import React from "react";
-import { Consumer } from "./context";
+import React from 'react';
+import { Consumer } from './context';
 
-const connectFormElement = Target => {
-  function FormItem(props) {
+const connectFormElement = (Target) => {
+  function FormElement(props) {
     return (
       <Consumer>
         {({ values, errors, onChange, emitEvent }) => (
@@ -18,11 +18,9 @@ const connectFormElement = Target => {
     );
   }
 
-  FormItem.displayName = `ualaFormItem(${Target.displayName ||
-    Target.name ||
-    "Component"})`;
+  FormElement.displayName = `connectFormElement(${Target.displayName || Target.name || 'Component'})`;
 
-  return FormItem;
+  return FormElement;
 };
 
 export default connectFormElement;

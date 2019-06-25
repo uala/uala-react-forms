@@ -1,28 +1,35 @@
-import React from "react";
-import { connectFormElement } from "../../src";
-import TextInput from "./TextInput";
+import React from 'react';
+import { connectFormElement } from '../../src';
+import TextInput from './TextInput';
 
 const style = {
-  position: "fixed",
+  position: 'fixed',
   right: 0,
   top: 0,
   width: 200,
-  background: "#ddd"
+  background: '#ddd',
 };
 
-export function Display({ values }) {
-  return (
-    <div className="Display" style={style}>
-      <h3>{values.first_name}</h3>
-      <h3>{values.last_name}</h3>
-      <div>Image: {values.image}</div>
-      {!!values.privacy && (
-        <div>
-          <TextInput name="notification_type" />
-        </div>
-      )}
-    </div>
-  );
-}
+/* eslint-disable react/prop-types, camelcase */
+const Display = ({
+  values: {
+    first_name,
+    last_name,
+    image,
+    privacy,
+  },
+}) => (
+  <div className="Display" style={style}>
+    <h3>{first_name}</h3>
+    <h3>{last_name}</h3>
+    <div>{`Image: ${image}`}</div>
+    {!!privacy && (
+      <div>
+        <TextInput name="notification_type" />
+      </div>
+    )}
+  </div>
+);
+/* eslint-enable react/prop-types, camelcase */
 
 export default connectFormElement(Display);
