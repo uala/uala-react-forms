@@ -1,5 +1,5 @@
 import React from "react";
-import { ualaFormItem } from "../../src";
+import { connectFormElement } from "../../src";
 
 export function Checkbox({ name, onChange }) {
   return (
@@ -12,4 +12,4 @@ export function Checkbox({ name, onChange }) {
   );
 }
 
-export default ualaFormItem(Checkbox);
+export default connectFormElement(Checkbox);

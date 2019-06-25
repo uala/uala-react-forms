@@ -1,4 +1,4 @@
-import ualaFormItem from "./ualaFormItem";
-import ualaForm from "./ualaForm";
+import connectFormElement from "./connectFormElement";
+import connectForm from "./connectForm";
 
-export { ualaForm, ualaFormItem };
+export { connectForm, connectFormElement };

@@ -1,5 +1,5 @@
 import React from "react";
-import { ualaFormItem } from "../../src";
+import { connectFormElement } from "../../src";
 
 export function TextInput({ name, onChange }) {
   return (
@@ -13,4 +13,4 @@ export function TextInput({ name, onChange }) {
   );
 }
 
-export default ualaFormItem(TextInput);
+export default connectFormElement(TextInput);

@@ -1,5 +1,5 @@
 import React from "react";
-import { ualaFormItem } from "../../src";
+import { connectFormElement } from "../../src";
 
 const style = { display: "inline-block", width: 100, height: 100, margin: 5 };
 
@@ -28,4 +28,4 @@ export function ImageSelection({ name, emitEvent }) {
   );
 }
 
-export default ualaFormItem(ImageSelection);
+export default connectFormElement(ImageSelection);

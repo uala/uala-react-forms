@@ -1,8 +1,8 @@
 import React from "react";
-import { ualaFormItem } from "../../src";
+import { connectFormElement } from "../../src";
 
 export function Privacy({ values }) {
   return <div className="Privacy">{values.notification_type}</div>;
 }
 
-export default ualaFormItem(Privacy);
+export default connectFormElement(Privacy);

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Provider } from "./context";
 
-const ualaForm = Target => {
+const connectForm = Target => {
   function Form(props) {
     const [values, setValues] = useState({});
     const onChange = (name, value) =>
@@ -31,4 +31,4 @@ const ualaForm = Target => {
   return Form;
 };
 
-export default ualaForm;
+export default connectForm;

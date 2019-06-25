@@ -1,5 +1,5 @@
 import React from "react";
-import { ualaFormItem } from "../../src";
+import { connectFormElement } from "../../src";
 import TextInput from "./TextInput";
 
 const style = {
@@ -25,4 +25,4 @@ export function Display({ values }) {
   );
 }
 
-export default ualaFormItem(Display);
+export default connectFormElement(Display);

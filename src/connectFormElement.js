@@ -1,7 +1,7 @@
 import React from "react";
 import { Consumer } from "./context";
 
-const ualaFormItem = Target => {
+const connectFormElement = Target => {
   function FormItem(props) {
     return (
       <Consumer>
@@ -25,4 +25,4 @@ const ualaFormItem = Target => {
   return FormItem;
 };
 
-export default ualaFormItem;
+export default connectFormElement;
