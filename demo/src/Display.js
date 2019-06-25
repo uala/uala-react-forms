@@ -22,7 +22,7 @@ const Display = ({
   <div className="Display" style={style}>
     <h3>{first_name}</h3>
     <h3>{last_name}</h3>
-    <div>{`Image: ${image}`}</div>
+    <div>{`Image: ${image || 'no image selected'}`}</div>
     {!!privacy && (
       <div>
         <TextInput name="notification_type" />
