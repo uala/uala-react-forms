@@ -23,12 +23,17 @@ export default connectForm()(MyForm);
 import { connectFormElement } from 'uala/uala-react-form';
 
 const MyInput = ({ name, onChange }) => (
-    <input
-        type="text"
-        id={name}
-        name={name}
-        onChange={e => onChange(name, e.target.value)}
-    />
+  <input name={name} onChange={e => onChange(name, e.target.value)} />
+);
+
+export default connectFormElement(MyInput);
+```
+
+```jsx
+import { connectFormElement } from 'uala/uala-react-form';
+
+const MySubmit = ({ onSubmit }) => (
+  <input type="submit" onClick={onSubmit} />
 );
 
 export default connectFormElement(MyInput);
@@ -37,25 +42,19 @@ export default connectFormElement(MyInput);
 3. You can now build your form using the wrapped components you just defined.
 
 ```jsx
-import MyInput from './MyInput.js'
 import MyForm from './MyForm.js'
+import MyInput from './MyInput.js'
+import MySubmit from './MySubmit.js'
 
 const MyFormContainer = () => {
-    const initialValues = {
-        firstName: '',
-        lastName: ''
-    };
-
-    const handleSubmit({ values }) => { console.log({ ...values })};
-
-    return (
-        <Form>
-            <MyInput name="firstName" />
-            <MyInput name="lastName" />
+  return (
+    <MyForm>
+      <MyInput name="firstName" />
+      <MyInput name="lastName" />
             
-            <input type="submit" />
-        </Form>
-    );
+      <MySubmit />
+    </MyForm>
+  );
 }
 
 export default MyFormContainer;
@@ -113,7 +112,7 @@ It's also responsible to pass the  `onSubmit()`, `onChange()`, `onBlur()`, `onFo
 |----|----|----|----|
 |schema|Object|`null`|The validation schema used to validate your form. Default values are used during form initialization.|
 |schemaVendor|string|`'yup'`|The name of the schema vendor, (e.g. 'yup', 'joi')|
-|validationMode|string|`'onSubmit'`|Define when the form is validated. Allowed values are `'onSubmit'|'onBlur'|'onChange'`|
+|validationMode|string|`'onsubmit'`|Define when the form is validated. Allowed values are `'onsubmit','ondidchanged','onchange'`|
 |statePropagation|boolean|`false`|Enable the form state propagation, allowing children to access the parent state.|
 
 #### `connectFormElement()`
