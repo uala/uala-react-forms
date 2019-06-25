@@ -17,10 +17,10 @@ const MyForm = ({ onSubmit, children }) => <form>{children}</form>;
 export default connectForm()(MyForm);
 ```
 
-2. Wrap your inputs using the `connectFormValues` HOC.
+2. Wrap your inputs using the `connectFormElement()` HOC.
 
 ```jsx
-import { connectFormValues } from 'uala/uala-react-form';
+import { connectFormElement } from 'uala/uala-react-form';
 
 const MyInput = ({ name, onChange }) => (
     <input
@@ -31,7 +31,7 @@ const MyInput = ({ name, onChange }) => (
     />
 );
 
-export default connectFormValues(MyInput);
+export default connectFormElement(MyInput);
 ```
 
 3. You can now build your form using the wrapped components you just defined.
@@ -49,7 +49,7 @@ const MyFormContainer = () => {
     const handleSubmit({ values }) => { console.log({ ...values })};
 
     return (
-        <Form initialValues={initialValues} onSubmit={handleSubmit}>
+        <Form>
             <MyInput name="firstName" />
             <MyInput name="lastName" />
             
@@ -84,8 +84,8 @@ a better estimation time for the actual implementation.
 
 ## API Reference
 
-    - [`connectForm()`](#connectform);
-    - [`connectFormValues()`](#connectformvalues);
+- [`connectForm()`](#connectform);
+- [`connectFormElement()`](#connectformvalues);
 
 ### `connectForm()`
 
@@ -101,7 +101,7 @@ It's also responsible to pass the  `onSubmit()`, `onChange()`, `onBlur()`, `onFo
 
 ##### 
 
-### `connectFormValues()`
+### `connectFormElement()`
 
 TBD.
 
