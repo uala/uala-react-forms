@@ -1,15 +1,25 @@
-import React, {Component} from 'react'
-import {render} from 'react-dom'
+import React from 'react';
 
-import Example from '../../src'
+import Form from './Form';
+import TextInput from './TextInput';
+import Checkbox from './Checkbox';
+import Display from './Display';
+import Privacy from './Privacy';
+import ImageSelection from './ImageSelection';
 
-class Demo extends Component {
-  render() {
-    return <div>
-      <h1>uala-react-forms Demo</h1>
-      <Example/>
-    </div>
-  }
-}
+const Demo = () => (
+  <div>
+    <Form>
+      <TextInput name="first_name" />
+      <TextInput name="last_name" />
+      <Checkbox name="privacy" />
+      <div>
+        <ImageSelection name="image" />
+      </div>
+      <Privacy />
+      <Display />
+    </Form>
+  </div>
+);
 
-render(<Demo/>, document.querySelector('#demo'))
+export default Demo;
