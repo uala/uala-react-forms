@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Provider } from './context';
+import createSchema from './schema';
 
 /**
  * Connect the form properties, such schema, validation mode, etc. to the `Component`
  * designed as wrapper.
  *
  * @param {Object} [options] - the configuration options.
- * @param {Object} [options.schema] - the form schema.
+ * @param {Object|null} [options.schema] - the form schema.
  *  Schema is used to define defaults form values, the initial state and the validation rules.
  * @param {string} [options.schemaVendor='yup'] - the validation schema vendor,
  *  set to 'yup' by default.
@@ -18,14 +19,13 @@ import { Provider } from './context';
  * @return {function(*): function(*): *} -
  *  The `Form` component enhanced with listeners and properties.
  */
-const connectForm = ({
-  schema,
-  schemaVendor = 'yup',
-  validationMode = 'onsubmit',
-  statePropagation = false,
-} = null) => (Target) => {
+const connectForm = options => (Target) => {
+  const schema = options && options.schema ? options.schema : {};
+  const schemaInterface = schema ? createSchema(schema, 'yup') : null;
+  const defaultValues = (schemaInterface && schemaInterface.getDefaults()) || {};
+
   function Form(props) {
-    const [values, setValues] = useState({});
+    const [values, setValues] = useState(defaultValues);
 
     const emitEvent = ({ type, name, value }) => {
       switch (type) {
