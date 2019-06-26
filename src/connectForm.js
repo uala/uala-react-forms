@@ -8,11 +8,12 @@ import { Provider } from './context';
  * @param {Object} [options] - the configuration options.
  * @param {Object} [options.schema] - the form schema.
  *  Schema is used to define defaults form values, the initial state and the validation rules.
- * @param {string} [options.schemaVendor='yup'] - the validation schema vendor.
+ * @param {string} [options.schemaVendor='yup'] - the validation schema vendor,
+ *  set to 'yup' by default.
  * @param {string} [options.validationMode='onsubmit'] - the validation mode used.
  *  Allowed values are: `onsubmit`, `onblur`, `onchange`
  * @param {boolean} [options.statePropagation=false] - whether the stage changes should be
- *  propagated or not.
+ *  propagated or not. Default `false`.
  *
  * @return {function(*): function(*): *} -
  *  The `Form` component enhanced with listeners and properties.
