@@ -21,9 +21,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
-  "dependencies": {
-    "yup": "^0.27.0"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": "16.x"
   },
@@ -41,7 +39,8 @@
     "eslint-plugin-react": "^7.14.2",
     "nwb": "0.23.x",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "yup": "^0.27.0"
   },
   "author": "",
   "homepage": "",

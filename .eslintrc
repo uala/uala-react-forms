@@ -25,6 +25,9 @@
     "function-paren-newline": ["error", "multiline"],
     "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
     "jsx-a11y/media-has-caption": 0,
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": ["**/stories/*.js"] }]
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": [
+      "**/stories/*.js",
+      "**/demo/**/*.js"
+    ] }]
   }
 }
