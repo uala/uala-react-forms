@@ -4,7 +4,7 @@ import { render, unmountComponentAtNode } from "react-dom";
 
 const Component = () => <div>Welcome to React components</div>;
 
-describe("Component", () => {
+describe("index", () => {
   let node;
 
   beforeEach(() => {

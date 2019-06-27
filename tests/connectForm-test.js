@@ -5,7 +5,7 @@ import { object, string } from "yup";
 
 import { connectForm } from "src/";
 
-describe("Component", () => {
+describe("connectForm", () => {
   let node;
 
   beforeEach(() => {
