@@ -20,20 +20,16 @@ import createSchema from './schema';
  *  The `Form` component enhanced with listeners and properties.
  */
 const connectForm = options => Target => {
-  const schema = options && options.schema ? options.schema : {};
-  const schemaInterface = schema ? createSchema(schema, 'yup') : null;
+  const schema = options && options.schema ? options.schema : null;
+  const schemaInterface = schema && Object.keys(schema).length > 0 ? createSchema(schema, 'yup') : null;
   const defaultValues = (schemaInterface && schemaInterface.getDefaults()) || {};
 
   function Form(props) {
     const [values, setValues] = useState(defaultValues);
 
     const emitEvent = ({ type, name, value }) => {
-      switch (type) {
-        case 'onchange':
-          setValues({ ...values, [name]: value });
-          break;
-        default:
-          break;
+      if (type === 'onchange') {
+        setValues({ ...values, [name]: value });
       }
     };
 
