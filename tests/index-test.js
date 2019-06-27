@@ -2,9 +2,7 @@ import expect from "expect";
 import React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 
-import { connectForm } from "src/";
-
-const Component = connectForm()(() => <div>Welcome to React components</div>);
+const Component = () => <div>Welcome to React components</div>;
 
 describe("Component", () => {
   let node;
