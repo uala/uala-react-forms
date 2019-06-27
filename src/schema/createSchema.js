@@ -1,3 +1,6 @@
+import createFromYupSchema from './createFromYupSchema';
+import createFromCustomSchema from './createFromCustomSchema';
+
 /**
  * @typedef {Object} YupSchema
  * @property {Function} validate - Validate the schema
@@ -15,27 +18,6 @@
  * @property {Function} validate - validate current schema
  * @property {Function} getDefaults - retrieve schema default values
  */
-
-/**
- * Wrap Yup schema methods to validate and retrieve default values.
- *
- * @param {YupSchema} schema - the Yup schema
- * @returns {UalaSchemaWrapper} - the wrapper for a Yup schema
- */
-const createFromYupSchema = schema => ({
-  validate: value => schema.validate(value),
-  getDefaults: () => schema.default(),
-});
-
-/**
- *
- * @param {CustomSchema} schema
- * @returns {UalaSchemaWrapper} - the wrapper for a Yup schema
- */
-const createFromCustomSchema = schema => ({
-  validate: () => schema.validate(),
-  getDefaults: () => schema.defaults(),
-});
 
 const createSchema = (schema, vendor) => {
   const schemaFactory = {};
