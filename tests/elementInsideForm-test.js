@@ -1,10 +1,9 @@
 import expect from 'expect';
 import React from 'react';
 import { create } from 'react-test-renderer';
-
-import { connectForm, connectFormElement } from 'src/';
-
 import { object, string } from 'yup';
+
+import { connectForm, connectFormElement } from '../src';
 
 const schema = object({
   first_name: string()
@@ -13,21 +12,25 @@ const schema = object({
 });
 
 const Form = connectForm({ schema })(({ children }) => <div>{children}</div>);
+
 const TextInput = connectFormElement(({ name, onChange }) => (
   <input name={name} onChange={e => onChange(name, e.target.value)} />
 ));
-const DisplayFirstName = connectFormElement(({ values }) => (
-  <div dataValues={values}>{values.first_name}</div>
-));
+
+const DisplayFirstName = connectFormElement(({ values }) => <div dataValues={values}>{values.first_name}</div>);
+
+const TestNode = (
+  <Form>
+    <TextInput name="first_name" />
+    <TextInput name="last_name" />
+    <DisplayFirstName />
+  </Form>
+);
 
 describe('Form with elements', () => {
   it('Mount', (done) => {
     let tree;
-    const renderedForm = create(<Form>
-        <TextInput name="first_name" />
-        <TextInput name="last_name" />
-        <DisplayFirstName />
-      </Form>,);
+    const renderedForm = create(TestNode);
     tree = renderedForm.toJSON();
 
     expect(tree.children.length).toBe(3);
