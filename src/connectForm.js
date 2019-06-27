@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Provider } from './context';
 import createSchema from './schema';
+import mergeDefaultOptions from './mergeDefaultOptions';
 
 /**
  * Connect the form properties, such schema, validation mode, etc. to the `Component`
@@ -21,7 +22,11 @@ import createSchema from './schema';
  */
 const connectForm = options => Target => {
   const schema = options && options.schema ? options.schema : null;
-  const schemaInterface = schema && Object.keys(schema).length > 0 ? createSchema(schema, 'yup') : null;
+  const optionsWithDefaults = mergeDefaultOptions(options);
+
+  const schemaInterface =
+    schema && Object.keys(schema).length > 0 ? createSchema(schema, optionsWithDefaults.vendor) : null;
+
   const defaultValues = (schemaInterface && schemaInterface.getDefaults()) || {};
 
   function Form(props) {
