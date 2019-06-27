@@ -1,4 +1,4 @@
-import "./Schema.type";
+import './Schema.type';
 
 /**
  * Wrap Yup schema methods to validate and retrieve default values.
@@ -8,7 +8,7 @@ import "./Schema.type";
  */
 const createFromYupSchema = schema => ({
   validate: schema.validate,
-  getDefaults: schema.default
+  getDefaults: schema.default,
 });
 
 export default createFromYupSchema;

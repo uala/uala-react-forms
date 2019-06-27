@@ -1,7 +1,7 @@
-import "./Schema.type";
+import './Schema.type';
 
-import createFromYupSchema from "./createFromYupSchema";
-import createFromCustomSchema from "./createFromCustomSchema";
+import createFromYupSchema from './createFromYupSchema';
+import createFromCustomSchema from './createFromCustomSchema';
 
 /**
  *
@@ -12,9 +12,9 @@ const createSchema = (schema, vendor) => {
   const schemaFactory = {};
 
   switch (vendor) {
-    case "yup":
+    case 'yup':
       return Object.assign({}, schemaFactory, createFromYupSchema(schema));
-    case "custom":
+    case 'custom':
     default:
       return Object.assign({}, schemaFactory, createFromCustomSchema(schema));
   }

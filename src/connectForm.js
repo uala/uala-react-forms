@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Provider } from "./context";
-import createSchema from "./schema";
+import React, { useState } from 'react';
+import { Provider } from './context';
+import createSchema from './schema';
 
 /**
  * Connect the form properties, such schema, validation mode, etc. to the `Component`
@@ -21,16 +21,15 @@ import createSchema from "./schema";
  */
 const connectForm = options => Target => {
   const schema = options && options.schema ? options.schema : {};
-  const schemaInterface = schema ? createSchema(schema, "yup") : null;
-  const defaultValues =
-    (schemaInterface && schemaInterface.getDefaults()) || {};
+  const schemaInterface = schema ? createSchema(schema, 'yup') : null;
+  const defaultValues = (schemaInterface && schemaInterface.getDefaults()) || {};
 
   function Form(props) {
     const [values, setValues] = useState(defaultValues);
 
     const emitEvent = ({ type, name, value }) => {
       switch (type) {
-        case "onchange":
+        case 'onchange':
           setValues({ ...values, [name]: value });
           break;
         default:
@@ -38,8 +37,7 @@ const connectForm = options => Target => {
       }
     };
 
-    const onChange = (name, value) =>
-      emitEvent({ type: "onchange", name, value });
+    const onChange = (name, value) => emitEvent({ type: 'onchange', name, value });
 
     return (
       <Provider value={{ values, onChange, emitEvent }}>
@@ -48,9 +46,7 @@ const connectForm = options => Target => {
     );
   }
 
-  Form.displayName = `connectForm(${Target.displayName ||
-    Target.name ||
-    "Component"})`;
+  Form.displayName = `connectForm(${Target.displayName || Target.name || 'Component'})`;
 
   return Form;
 };
