@@ -5,7 +5,8 @@
       "modules": true
     }
   },
-  "extends": "airbnb",
+  "extends": ["airbnb", "prettier"],
+  "plugins": ["prettier"],
   "env": {
     "node": true,
     "browser": true,
@@ -19,15 +20,13 @@
     }
   },
   "rules": {
+    "prettier/prettier": ["error"],
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "react/jsx-indent": ["error", 2],
     "react/jsx-indent-props": ["error", 2],
     "function-paren-newline": ["error", "multiline"],
     "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
     "jsx-a11y/media-has-caption": 0,
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": [
-      "**/stories/*.js",
-      "**/demo/**/*.js"
-    ] }]
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": ["**/stories/*.js", "**/demo/**/*.js"] }]
   }
 }
