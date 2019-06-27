@@ -7,8 +7,8 @@ import './Schema.type';
  * @returns {UalaSchemaWrapper} - the wrapper for a Yup schema
  */
 const createFromYupSchema = schema => ({
-  validate: schema.validate,
-  getDefaults: schema.default,
+  validate: schema.validate.bind(schema),
+  getDefaults: schema.default.bind(schema),
 });
 
 export default createFromYupSchema;
