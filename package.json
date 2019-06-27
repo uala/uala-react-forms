@@ -40,6 +40,7 @@
     "nwb": "0.23.x",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-test-renderer": "^16.8.6",
     "yup": "^0.27.0"
   },
   "author": "",

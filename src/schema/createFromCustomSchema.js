@@ -1,3 +1,4 @@
+import "./Schema.type";
 /**
  *
  * @param {CustomSchema} schema
@@ -5,7 +6,7 @@
  */
 const createFromCustomSchema = schema => ({
   validate: () => schema.validate(),
-  getDefaults: () => schema.defaults(),
+  getDefaults: () => schema.defaults()
 });
 
 export default createFromCustomSchema;
