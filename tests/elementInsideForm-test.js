@@ -8,7 +8,7 @@ import { connectForm, connectFormElement } from '../src';
 const schema = object({
   first_name: string()
     .required('This field is required')
-    .default('pippo'),
+    .default('Mark'),
 });
 
 const Form = connectForm({ schema })(({ children }) => <div>{children}</div>);
@@ -35,11 +35,13 @@ describe('Form with elements', () => {
 
     expect(tree.children.length).toBe(3);
     expect(tree.children[0].props.name).toBe('first_name');
-    expect(tree.children[0].props.onChange).toBeA('function');
-    await tree.children[0].props.onChange({ target: { value: 'Mark' } });
-
-    tree = renderedForm.toJSON();
     expect(tree.children[2].children[0]).toBe('Mark');
     expect(tree.children[2].props.dataValues.first_name).toBe('Mark');
+    expect(tree.children[0].props.onChange).toBeA('function');
+
+    await tree.children[0].props.onChange({ target: { value: 'Jhonny' } });
+    tree = renderedForm.toJSON();
+    expect(tree.children[2].children[0]).toBe('Jhonny');
+    expect(tree.children[2].props.dataValues.first_name).toBe('Jhonny');
   });
 });
