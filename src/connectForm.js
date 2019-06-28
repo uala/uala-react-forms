@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Provider } from './context';
-import createSchema, { UalaSchemaErrorInterface } from './schema';
+import createSchema from './schema';
 import mergeDefaultOptions from './mergeDefaultOptions';
-import castInterface from './castInterface';
 
 /**
  * Connect the form properties, such schema, validation mode, etc. to the `Component`
@@ -32,21 +31,20 @@ const connectForm = options => Target => {
 
   function Form(props) {
     const [values, setValues] = useState(defaultValues);
-    const [errors, setErrors] = useState(castInterface(UalaSchemaErrorInterface).errors);
+    const [errors, setErrors] = useState({});
 
-    const emitEvent = ({ type, name, value }) => {
-      const testValues = Object.assign({}, values, { [name]: value });
+    const emitEvent = async ({ type, name, value }) => {
+      const testValues = { ...values, [name]: value };
 
-      schemaInterface.validate(testValues).then(res => {
-        // Set the errors only if they actually changed
-        if (JSON.stringify(errors) !== JSON.stringify(res.errors)) {
-          setErrors(res.errors);
-        }
+      const validation = await schemaInterface.validate(testValues);
 
-        if (type === 'onchange') {
-          setValues({ ...values, [name]: value });
-        }
-      });
+      if (JSON.stringify(errors) !== JSON.stringify(validation.errors)) {
+        await setErrors(validation.errors);
+      }
+
+      if (type === 'onchange') {
+        await setValues({ ...values, [name]: value });
+      }
     };
 
     const onChange = (name, value) => emitEvent({ type: 'onchange', name, value });

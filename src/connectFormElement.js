@@ -6,18 +6,8 @@ const connectFormElement = Target => {
     return (
       <Consumer>
         {({ values, errors, onChange, emitEvent }) => {
-          // eslint-disable-next-line react/prop-types
-          const { name } = props;
-
           return (
-            <Target
-              values={values}
-              defaultValue={(values && name && values[name]) || ''}
-              errors={(errors && name && errors[name]) || null}
-              onChange={onChange}
-              emitEvent={emitEvent}
-              {...props}
-            />
+            <Target values={values} errors={errors || null} onChange={onChange} emitEvent={emitEvent} {...props} />
           );
         }}
       </Consumer>
