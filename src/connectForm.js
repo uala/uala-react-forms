@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Provider } from './context';
-import createSchema from './schema';
+import createSchema, { UalaSchemaErrorInterface } from './schema';
 import mergeDefaultOptions from './mergeDefaultOptions';
+import castInterface from './castInterface';
 
 /**
  * Connect the form properties, such schema, validation mode, etc. to the `Component`
@@ -31,17 +32,27 @@ const connectForm = options => Target => {
 
   function Form(props) {
     const [values, setValues] = useState(defaultValues);
+    const [errors, setErrors] = useState(castInterface(UalaSchemaErrorInterface).errors);
 
     const emitEvent = ({ type, name, value }) => {
-      if (type === 'onchange') {
-        setValues({ ...values, [name]: value });
-      }
+      const testValues = Object.assign({}, values, { [name]: value });
+
+      schemaInterface.validate(testValues).then(res => {
+        // Set the errors only if they actually changed
+        if (JSON.stringify(errors) !== JSON.stringify(res.errors)) {
+          setErrors(res.errors);
+        }
+
+        if (type === 'onchange') {
+          setValues({ ...values, [name]: value });
+        }
+      });
     };
 
     const onChange = (name, value) => emitEvent({ type: 'onchange', name, value });
 
     return (
-      <Provider value={{ values, onChange, emitEvent }}>
+      <Provider value={{ values, onChange, emitEvent, errors }}>
         <Target {...props} />
       </Provider>
     );

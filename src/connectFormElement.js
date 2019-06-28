@@ -13,7 +13,7 @@ const connectFormElement = Target => {
             <Target
               values={values}
               defaultValue={(values && name && values[name]) || ''}
-              errors={errors}
+              errors={(errors && name && errors[name]) || null}
               onChange={onChange}
               emitEvent={emitEvent}
               {...props}
