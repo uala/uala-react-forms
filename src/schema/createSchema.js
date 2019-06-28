@@ -15,10 +15,16 @@ const createSchema = (schema, vendor) => {
 
   switch (vendor) {
     case 'yup':
-      return Object.assign({}, schemaFactory, createFromYupSchema(schema));
+      return {
+        ...schemaFactory,
+        ...createFromYupSchema(schema),
+      };
     case 'custom':
     default:
-      return Object.assign({}, schemaFactory, createFromCustomSchema(schema));
+      return {
+        ...schemaFactory,
+        ...createFromCustomSchema(schema),
+      };
   }
 };
 

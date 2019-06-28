@@ -1,5 +1,8 @@
 import defaultOptions from './defaultOptions';
 
-const mergeDefaultOptions = options => Object.assign({}, defaultOptions, options);
+const mergeDefaultOptions = options => ({
+  ...defaultOptions,
+  ...options,
+});
 
 export default mergeDefaultOptions;

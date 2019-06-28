@@ -5,6 +5,6 @@
  *
  * @returns {Object} - the casted interface
  */
-const castInterface = Interface => Object.assign({}, Interface);
+const castInterface = Interface => ({ ...Interface });
 
 export default castInterface;
