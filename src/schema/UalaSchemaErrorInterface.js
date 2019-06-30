@@ -1,13 +1,7 @@
-/**
- * @typedef {Object} UalaSchemaErrorInterface
- * @property {Object} errors
- * @property {Object} originalContext
- */
-
 /** @type {UalaSchemaErrorInterface} */
 const UalaSchemaErrorInterface = {
-  errors: {},
-  originalContext: {},
+  errors: null,
+  originalContext: null,
 };
 
 export default UalaSchemaErrorInterface;

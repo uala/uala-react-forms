@@ -31,7 +31,7 @@ const connectForm = options => Target => {
 
   function Form(props) {
     const [values, setValues] = useState(defaultValues);
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState(null);
 
     const emitEvent = async ({ type, name, value }) => {
       const testValues = { ...values, [name]: value };
