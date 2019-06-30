@@ -1,5 +1,5 @@
 import React from 'react';
-import { connectFormElement } from '../../src';
+import { connectFormElement, getErrorByName } from '../../src';
 
 const errorHelper = {
   color: 'red',
@@ -10,7 +10,7 @@ const TextInput = ({ name, errors, onChange, values }) => {
   return (
     <div className="TextInput">
       <input type="text" defaultValue={values[name]} name={name} onChange={e => onChange(name, e.target.value)} />
-      {errors && <div style={{ ...errorHelper }}>{errors[name]}</div>}
+      {errors && <div style={{ ...errorHelper }}>{getErrorByName(errors, name)}</div>}
     </div>
   );
 };
