@@ -1,3 +1,4 @@
+import './Schema.type';
 import castInterface from '../castInterface';
 import UalaSchemaInterface from './UalaSchemaErrorInterface';
 
@@ -10,13 +11,26 @@ import UalaSchemaInterface from './UalaSchemaErrorInterface';
  */
 const standardiseYupErrors = ValidationError => {
   const map = castInterface(UalaSchemaInterface);
+  map.errors = [];
+  map.originalContext = { ...ValidationError };
 
   if (ValidationError.inner.length === 0) {
-    const { path, message } = ValidationError;
+    const { path, errors } = ValidationError;
 
-    map.errors = Object.assign({}, { [path]: message });
-    map.originalContext = Object.assign({}, ValidationError);
+    map.errors.push({ name: path, message: [...errors] });
+  } else {
+    ValidationError.inner.forEach(error => {
+      const namedError = map.errors.find(mappedErr => mappedErr.name === error.path);
+
+      if (namedError) {
+        namedError.message.push(...error.errors);
+      } else {
+        map.errors.push({ name: error.path, message: [...error.errors] });
+      }
+    });
   }
+
+  console.log(map);
 
   return map;
 };

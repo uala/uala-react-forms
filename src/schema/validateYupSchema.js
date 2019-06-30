@@ -5,11 +5,11 @@ import UalaSchemaErrorInterface from './UalaSchemaErrorInterface';
 
 const ALLOWED_ERROR = 'ValidationError';
 
-const validateYupSchema = (schema, values) =>
+const validateYupSchema = (schema, values, context = {}) =>
   new Promise((resolve, reject) => {
     // Yup will throw a `ValidationError` whenever the validation fails
     schema
-      .validate(values)
+      .validate(values, { abortEarly: false, context })
       .then(() => {
         // Resolve with an empty error map
         resolve(castInterface(UalaSchemaErrorInterface));
