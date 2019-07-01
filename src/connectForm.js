@@ -44,17 +44,13 @@ const connectForm = options => Target => {
 
       const validation = await schemaInterface.validate(testValues);
 
-      if (JSON.stringify(errors) !== JSON.stringify(validation.errors)) {
+      if (errors !== validation.errors) {
         await setErrors(validation.errors);
       }
     };
 
     const emitEvent = async ({ type, name, value }) => {
-      console.log(type);
-
       if (shouldValidate(type)) {
-        console.log('here it goes...');
-
         await runValidation(name, value);
       }
 
@@ -63,12 +59,7 @@ const connectForm = options => Target => {
       }
     };
 
-    const handleSubmit = async event => {
-      event.stopPropagation();
-      event.preventDefault();
-
-      await emitEvent({ type: 'onsubmit' });
-    };
+    const handleSubmit = () => emitEvent({ type: 'onsubmit' });
 
     const onChange = (name, value) => emitEvent({ type: 'onchange', name, value });
 
