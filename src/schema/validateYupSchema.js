@@ -13,7 +13,7 @@ const ALLOWED_ERROR = 'ValidationError';
  *
  * @param {YupSchema} schema - the validation schema
  * @param {Object} values - the form values
- * @param {any} [context] - the additional context, if any
+ * @param {*} [context={}] - the additional context, if any
  *
  * @returns {Promise<any>}
  */
