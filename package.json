@@ -42,6 +42,7 @@
     "expect": "^24.8.0",
     "nwb": "0.23.x",
     "prettier": "^1.18.2",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-test-renderer": "^16.8.6",

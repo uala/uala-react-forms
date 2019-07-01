@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Provider } from './context';
 import createSchema from './schema';
 import mergeDefaultOptions from './mergeDefaultOptions';
+import connectFormPropTypes from './connectForm.propTypes';
 
 /**
  * Connect the form properties, such schema, validation mode, etc. to the `Component`
@@ -29,13 +30,14 @@ const connectForm = options => Target => {
 
   const defaultValues = (schemaInterface && schemaInterface.getDefaults()) || {};
 
-  function Form({ onFormSubmit, onFormChange, ...props }) {
+  function Form({ onSubmit, onChange, ...props }) {
     const [values, setValues] = useState(defaultValues);
     const [errors, setErrors] = useState(null);
 
     let newValues = values;
     let newErrors = errors;
 
+    // Validation
     const shouldValidate = eventType => {
       const { validationMode } = optionsWithDefaults;
 
@@ -51,45 +53,52 @@ const connectForm = options => Target => {
       }
     };
 
-    const emitEvent = async ({ type, name, value }) => {
-      if (type === 'onchange') {
-        const newValues = { ...values, [name]: value };
-
-        await setValues(newValues);
-
-        if (shouldValidate(type)) {
-          await runValidation();
-        }
-
-        if (onFormChange) {
-          onFormChange(name, value);
-        }
-      }
-
-      if (type === 'ondidchange') {
-        if (shouldValidate(type)) {
-          await runValidation();
-        }
-      }
-
-      if (type === 'onsubmit') {
-        if (shouldValidate(type)) {
-          await runValidation();
-        }
-
-        if (onFormSubmit && !newErrors) {
-          onFormSubmit({ values });
-        }
+    const validateIfNeeded = async eventType => {
+      if (shouldValidate(eventType)) {
+        await runValidation();
       }
     };
 
+    // Event handling
+    const emitEvent = async ({ type, name, value }) => {
+      switch (type) {
+        case 'onsubmit':
+          await validateIfNeeded(type);
+
+          if (onSubmit && !newErrors) {
+            onSubmit({ values });
+          }
+
+          break;
+        case 'onchange':
+          newValues = { ...values, [name]: value };
+
+          await setValues(newValues);
+          await validateIfNeeded(type);
+
+          if (onChange) {
+            onChange(name, value);
+          }
+
+          break;
+        case 'ondidchange':
+        default:
+          await validateIfNeeded(type);
+          break;
+      }
+    };
+
+    // Event emitters
     const emitSubmit = () => emitEvent({ type: 'onsubmit' });
 
     const emitChange = (name, value) => emitEvent({ type: 'onchange', name, value });
 
+    const emitDidChange = (name, value) => emitEvent({ type: 'ondidchange', name, value });
+
     const ualaFormContext = {
       values,
       emitChange,
+      emitDidChange,
       emitEvent,
       errors,
       emitSubmit,
@@ -103,6 +112,7 @@ const connectForm = options => Target => {
   }
 
   Form.displayName = `connectForm(${Target.displayName || Target.name || 'Component'})`;
+  Form.propTypes = connectFormPropTypes;
 
   return Form;
 };
