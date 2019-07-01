@@ -6,6 +6,7 @@ import Checkbox from './Checkbox';
 import Display from './Display';
 import Privacy from './Privacy';
 import ImageSelection from './ImageSelection';
+import Submit from './Submit';
 
 const Demo = () => (
   <div>
@@ -18,6 +19,7 @@ const Demo = () => (
       </div>
       <Privacy />
       <Display />
+      <Submit />
     </Form>
   </div>
 );
