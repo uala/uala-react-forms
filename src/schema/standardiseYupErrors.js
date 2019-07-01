@@ -30,8 +30,6 @@ const standardiseYupErrors = ValidationError => {
     });
   }
 
-  console.log(map);
-
   return map;
 };
 
