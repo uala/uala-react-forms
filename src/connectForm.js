@@ -33,13 +33,25 @@ const connectForm = options => Target => {
     const [values, setValues] = useState(defaultValues);
     const [errors, setErrors] = useState(null);
 
-    const emitEvent = async ({ type, name, value }) => {
+    const shouldValidate = eventType => {
+      const { validationMode } = options;
+
+      return eventType === validationMode;
+    };
+
+    const runValidation = async (name, value) => {
       const testValues = { ...values, [name]: value };
 
       const validation = await schemaInterface.validate(testValues);
 
       if (JSON.stringify(errors) !== JSON.stringify(validation.errors)) {
         await setErrors(validation.errors);
+      }
+    };
+
+    const emitEvent = async ({ type, name, value }) => {
+      if (shouldValidate(type)) {
+        await runValidation(name, value);
       }
 
       if (type === 'onchange') {
