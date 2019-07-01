@@ -34,7 +34,7 @@ const connectForm = options => Target => {
     const [errors, setErrors] = useState(null);
 
     const shouldValidate = eventType => {
-      const { validationMode } = options;
+      const { validationMode } = optionsWithDefaults;
 
       return eventType === validationMode;
     };
@@ -50,7 +50,11 @@ const connectForm = options => Target => {
     };
 
     const emitEvent = async ({ type, name, value }) => {
+      console.log(type);
+
       if (shouldValidate(type)) {
+        console.log('here it goes...');
+
         await runValidation(name, value);
       }
 
@@ -59,11 +63,26 @@ const connectForm = options => Target => {
       }
     };
 
+    const handleSubmit = async event => {
+      event.stopPropagation();
+      event.preventDefault();
+
+      await emitEvent({ type: 'onsubmit' });
+    };
+
     const onChange = (name, value) => emitEvent({ type: 'onchange', name, value });
 
+    const ualaFormContext = {
+      values,
+      onChange,
+      emitEvent,
+      errors,
+      handleSubmit,
+    };
+
     return (
-      <Provider value={{ values, onChange, emitEvent, errors }}>
-        <Target {...props} />
+      <Provider value={{ ...ualaFormContext }}>
+        <Target {...props} {...ualaFormContext} />
       </Provider>
     );
   }
