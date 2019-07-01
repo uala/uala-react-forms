@@ -8,6 +8,7 @@
  * @typedef {Object} YupSchema
  * @property {Function} validate - Validate the schema
  * @property {Function} default - Retrieve schema default values
+ * @property {Function} cast - Cast a new schema, with option context
  */
 
 /**

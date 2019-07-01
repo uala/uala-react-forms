@@ -10,8 +10,14 @@ import validateYupSchema from './validateYupSchema';
  * @returns {UalaSchemaWrapper} - the wrapper for a Yup schema
  */
 const createFromYupSchema = schema => ({
-  validate: values => validateYupSchema(schema, values),
-  getDefaults: schema.default.bind(schema),
+  validate: (values, context = {}) => validateYupSchema(schema, values, context),
+  getDefaults: (context = {}) => {
+    if (Object.keys(context).length === 0) {
+      return schema.default();
+    }
+
+    return schema.cast({}, { context });
+  },
 });
 
 export default createFromYupSchema;

@@ -28,9 +28,10 @@ const connectForm = options => Target => {
   const schemaInterface =
     schema && Object.keys(schema).length > 0 ? createSchema(schema, optionsWithDefaults.vendor) : null;
 
-  const defaultValues = (schemaInterface && schemaInterface.getDefaults()) || {};
-
   function Form({ onSubmit, onChange, ...props }) {
+    const { context } = props;
+    const defaultValues = (schemaInterface && schemaInterface.getDefaults(context || {})) || {};
+
     const [values, setValues] = useState(defaultValues);
     const [errors, setErrors] = useState(null);
 
@@ -45,7 +46,7 @@ const connectForm = options => Target => {
     };
 
     const runValidation = async () => {
-      const validation = await schemaInterface.validate(newValues);
+      const validation = await schemaInterface.validate(newValues, context);
 
       if (errors !== validation.errors) {
         newErrors = validation.errors;
@@ -105,7 +106,7 @@ const connectForm = options => Target => {
     };
 
     return (
-      <Provider value={{ ...ualaFormContext }}>
+      <Provider value={ualaFormContext}>
         <Target {...props} {...ualaFormContext} />
       </Provider>
     );
