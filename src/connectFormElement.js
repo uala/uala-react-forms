@@ -1,6 +1,13 @@
 import React from 'react';
 import { Consumer } from './context';
 
+/**
+ * Connect the target `Component` to the form context. The context empowers the passed component,
+ * attaching `values`, `errors`, `onChange` and `emitEvent`.
+ *
+ * @param Target
+ * @returns {function(*): *}
+ */
 const connectFormElement = Target => {
   function FormElement(props) {
     return (
