@@ -2,11 +2,11 @@ import React from 'react';
 import { connectFormElement } from '../../src';
 
 // eslint-disable-next-line react/prop-types
-const Checkbox = ({ name, onChange }) => (
+const Checkbox = ({ name, emitChange }) => (
   <div className="Checkbox">
     <label htmlFor={name}>
       Checkbox
-      <input id={name} name={name} type="checkbox" onChange={e => onChange(name, !!e.target.checked)} />
+      <input id={name} name={name} type="checkbox" onChange={e => emitChange(name, !!e.target.checked)} />
     </label>
   </div>
 );

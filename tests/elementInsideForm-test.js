@@ -13,8 +13,8 @@ const schema = object({
 
 const Form = connectForm({ schema })(({ children }) => <div>{children}</div>);
 
-const TextInput = connectFormElement(({ name, onChange }) => (
-  <input name={name} onChange={e => onChange(name, e.target.value)} />
+const TextInput = connectFormElement(({ name, emitChange }) => (
+  <input name={name} onChange={e => emitChange(name, e.target.value)} />
 ));
 
 const DisplayFirstName = connectFormElement(({ values }) => <div dataValues={values}>{values.first_name}</div>);

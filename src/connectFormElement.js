@@ -9,12 +9,26 @@ import { Consumer } from './context';
  * @returns {function(*): *}
  */
 const connectFormElement = Target => {
-  function FormElement(props) {
+  function FormElement({ onChange, ...props }) {
     return (
       <Consumer>
-        {({ values, errors, onChange, emitEvent }) => {
+        {({ values, errors, emitChange, emitEvent }) => {
+          const emitChangeHandler = (...args) => {
+            emitChange(...args);
+
+            if (onChange) {
+              onChange(...args);
+            }
+          };
+
           return (
-            <Target values={values} errors={errors || null} onChange={onChange} emitEvent={emitEvent} {...props} />
+            <Target
+              values={values}
+              errors={errors || null}
+              emitChange={emitChangeHandler}
+              emitEvent={emitEvent}
+              {...props}
+            />
           );
         }}
       </Consumer>

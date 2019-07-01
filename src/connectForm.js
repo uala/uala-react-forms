@@ -29,9 +29,12 @@ const connectForm = options => Target => {
 
   const defaultValues = (schemaInterface && schemaInterface.getDefaults()) || {};
 
-  function Form(props) {
+  function Form({ onFormSubmit, onFormChange, ...props }) {
     const [values, setValues] = useState(defaultValues);
     const [errors, setErrors] = useState(null);
+
+    let newValues = values;
+    let newErrors = errors;
 
     const shouldValidate = eventType => {
       const { validationMode } = optionsWithDefaults;
@@ -39,36 +42,57 @@ const connectForm = options => Target => {
       return eventType === validationMode;
     };
 
-    const runValidation = async (name, value) => {
-      const testValues = { ...values, [name]: value };
-
-      const validation = await schemaInterface.validate(testValues);
+    const runValidation = async () => {
+      const validation = await schemaInterface.validate(newValues);
 
       if (errors !== validation.errors) {
-        await setErrors(validation.errors);
+        newErrors = validation.errors;
+        await setErrors(newErrors);
       }
     };
 
     const emitEvent = async ({ type, name, value }) => {
-      if (shouldValidate(type)) {
-        await runValidation(name, value);
+      if (type === 'onchange') {
+        const newValues = { ...values, [name]: value };
+
+        await setValues(newValues);
+
+        if (shouldValidate(type)) {
+          await runValidation();
+        }
+
+        if (onFormChange) {
+          onFormChange(name, value);
+        }
       }
 
-      if (type === 'onchange') {
-        await setValues({ ...values, [name]: value });
+      if (type === 'ondidchange') {
+        if (shouldValidate(type)) {
+          await runValidation();
+        }
+      }
+
+      if (type === 'onsubmit') {
+        if (shouldValidate(type)) {
+          await runValidation();
+        }
+
+        if (onFormSubmit && !newErrors) {
+          onFormSubmit({ values });
+        }
       }
     };
 
-    const handleSubmit = () => emitEvent({ type: 'onsubmit' });
+    const emitSubmit = () => emitEvent({ type: 'onsubmit' });
 
-    const onChange = (name, value) => emitEvent({ type: 'onchange', name, value });
+    const emitChange = (name, value) => emitEvent({ type: 'onchange', name, value });
 
     const ualaFormContext = {
       values,
-      onChange,
+      emitChange,
       emitEvent,
       errors,
-      handleSubmit,
+      emitSubmit,
     };
 
     return (

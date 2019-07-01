@@ -4,12 +4,12 @@ import { connectForm } from '../../src';
 import schema from './schema';
 
 // eslint-disable-next-line react/prop-types
-const Form = ({ children, handleSubmit }) => {
+const Form = ({ children, emitSubmit }) => {
   const submit = e => {
     e.preventDefault();
     e.stopPropagation();
 
-    handleSubmit();
+    emitSubmit();
   };
 
   return (
