@@ -10,7 +10,7 @@ import Submit from './Submit';
 
 const Demo = () => (
   <div>
-    <Form>
+    <Form context={{ last_name: 'franco' }}>
       <TextInput name="first_name" />
       <TextInput name="last_name" />
       <Checkbox name="privacy" />
