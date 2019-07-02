@@ -11,14 +11,7 @@ const style = {
 };
 
 /* eslint-disable react/prop-types, camelcase */
-const Display = ({
-  values: {
-    first_name,
-    last_name,
-    image,
-    privacy,
-  },
-}) => (
+const Display = ({ values: { first_name, last_name, image, privacy } }) => (
   <div className="Display" style={style}>
     <h3>{first_name}</h3>
     <h3>{last_name}</h3>
