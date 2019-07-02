@@ -13,7 +13,7 @@ const connectFormElement = Target => {
   function FormElement({ onChange, ...props }) {
     return (
       <Consumer>
-        {({ values, errors, emitChange, emitEvent }) => {
+        {({ values, errors, emitChange, emitEvent, emitDidChange, emitSubmit }) => {
           const emitChangeHandler = (...args) => {
             emitChange(...args);
 
@@ -28,6 +28,8 @@ const connectFormElement = Target => {
               errors={errors || null}
               emitChange={emitChangeHandler}
               emitEvent={emitEvent}
+              emitDidChange={emitDidChange}
+              emitSubmit={emitSubmit}
               {...props}
             />
           );
