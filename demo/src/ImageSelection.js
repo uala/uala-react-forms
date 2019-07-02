@@ -12,22 +12,13 @@ const style = {
 // eslint-disable-next-line react/prop-types
 const ImageSelection = ({ name, emitEvent }) => (
   <div className="ImageSelection">
-    <div
-      style={style}
-      onClick={() => emitEvent({ type: 'onchange', name, value: 1 })}
-    >
+    <div style={style} onClick={() => emitEvent({ type: 'onchange', name, value: 1 })}>
       Image 1
     </div>
-    <div
-      style={style}
-      onClick={() => emitEvent({ type: 'onchange', name, value: 2 })}
-    >
+    <div style={style} onClick={() => emitEvent({ type: 'onchange', name, value: 2 })}>
       Image 2
     </div>
-    <div
-      style={style}
-      onClick={() => emitEvent({ type: 'onchange', name, value: 3 })}
-    >
+    <div style={style} onClick={() => emitEvent({ type: 'onchange', name, value: 3 })}>
       Image 3
     </div>
   </div>
