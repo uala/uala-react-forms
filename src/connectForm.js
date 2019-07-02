@@ -136,7 +136,10 @@ const connectForm = options => Target => {
   }
 
   Form.displayName = `connectForm(${Target.displayName || Target.name || 'Component'})`;
-  Form.propTypes = connectFormPropTypes;
+  Form.propTypes = {
+    ...connectFormPropTypes,
+    ...Target.propTypes,
+  };
 
   return Form;
 };

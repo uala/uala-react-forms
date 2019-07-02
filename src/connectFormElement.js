@@ -1,5 +1,6 @@
 import React from 'react';
 import { Consumer } from './context';
+import connectFormElementPropTypes from './connectFormElement.propTypes';
 
 /**
  * Connect the target `Component` to the form context. The context empowers the passed component,
@@ -36,6 +37,10 @@ const connectFormElement = Target => {
   }
 
   FormElement.displayName = `connectFormElement(${Target.displayName || Target.name || 'Component'})`;
+  FormElement.propTypes = {
+    ...connectFormElementPropTypes,
+    ...Target.propTypes,
+  };
 
   return FormElement;
 };
