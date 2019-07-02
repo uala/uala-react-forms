@@ -1,6 +1,8 @@
+import { ON_SUBMIT } from './connectForm.events';
+
 const defaultOptions = {
   vendor: 'yup',
-  validationMode: 'onsubmit',
+  validationMode: ON_SUBMIT,
   statePropagation: false,
 };
 
