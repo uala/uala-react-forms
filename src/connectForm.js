@@ -101,7 +101,9 @@ const connectForm = options => Target => {
     };
 
     useEffect(() => {
-      if (touched) {
+      const { validationMode } = optionsWithDefaults;
+
+      if (touched && validationCount > 0 && validationMode !== Events.ON_SUBMIT) {
         runValidation();
       }
 
