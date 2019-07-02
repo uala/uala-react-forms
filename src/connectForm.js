@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Provider } from './context';
 import createSchema from './schema';
 import mergeDefaultOptions from './mergeDefaultOptions';
 import connectFormPropTypes from './connectForm.propTypes';
+import * as Events from './connectForm.events';
 
 /**
  * Connect the form properties, such schema, validation mode, etc. to the `Component`
@@ -29,11 +30,13 @@ const connectForm = options => Target => {
     schema && Object.keys(schema).length > 0 ? createSchema(schema, optionsWithDefaults.vendor) : null;
 
   function Form({ onSubmit, onChange, ...props }) {
-    const { context } = props;
-    const defaultValues = (schemaInterface && schemaInterface.getDefaults(context || {})) || {};
+    const { context } = props || {};
+    const defaultValues = (schemaInterface && schemaInterface.getDefaults(context)) || {};
 
     const [values, setValues] = useState(defaultValues);
     const [errors, setErrors] = useState(null);
+    const [touched, setTouched] = useState(false);
+    const [validationCount, setValidationCount] = useState(0);
 
     let newValues = values;
     let newErrors = errors;
@@ -42,11 +45,17 @@ const connectForm = options => Target => {
     const shouldValidate = eventType => {
       const { validationMode } = optionsWithDefaults;
 
+      if (eventType === Events.ON_SUBMIT) {
+        return true;
+      }
+
       return eventType === validationMode;
     };
 
     const runValidation = async () => {
       const validation = await schemaInterface.validate(newValues, context);
+
+      await setValidationCount(validationCount + 1);
 
       if (errors !== validation.errors) {
         newErrors = validation.errors;
@@ -63,17 +72,19 @@ const connectForm = options => Target => {
     // Event handling
     const emitEvent = async ({ type, name, value }) => {
       switch (type) {
-        case 'onsubmit':
+        case Events.ON_SUBMIT:
           await validateIfNeeded(type);
 
           if (onSubmit && !newErrors) {
+            await setTouched(false);
             onSubmit({ values });
           }
 
           break;
-        case 'onchange':
+        case Events.ON_CHANGE:
           newValues = { ...values, [name]: value };
 
+          await setTouched(true);
           await setValues(newValues);
           await validateIfNeeded(type);
 
@@ -82,22 +93,32 @@ const connectForm = options => Target => {
           }
 
           break;
-        case 'ondidchange':
+        case Events.ON_DID_CHANGE:
         default:
           await validateIfNeeded(type);
           break;
       }
     };
 
+    useEffect(() => {
+      if (touched) {
+        runValidation();
+      }
+
+      return () => {};
+    }, [context]);
+
     // Event emitters
-    const emitSubmit = () => emitEvent({ type: 'onsubmit' });
+    const emitSubmit = () => emitEvent({ type: Events.ON_SUBMIT });
 
-    const emitChange = (name, value) => emitEvent({ type: 'onchange', name, value });
+    const emitChange = (name, value) => emitEvent({ type: Events.ON_CHANGE, name, value });
 
-    const emitDidChange = (name, value) => emitEvent({ type: 'ondidchange', name, value });
+    const emitDidChange = (name, value) => emitEvent({ type: Events.ON_DID_CHANGE, name, value });
 
-    const ualaFormContext = {
+    // Context bag
+    const formContext = {
       values,
+      touched,
       emitChange,
       emitDidChange,
       emitEvent,
@@ -106,8 +127,8 @@ const connectForm = options => Target => {
     };
 
     return (
-      <Provider value={ualaFormContext}>
-        <Target {...props} {...ualaFormContext} />
+      <Provider value={formContext}>
+        <Target {...props} {...formContext} />
       </Provider>
     );
   }
