@@ -1,6 +1,6 @@
 import { object, string } from 'yup';
 
-export const customer = object({
+const customer = object({
   first_name: string()
     .required('first_name is required')
     .default('Mark'),
@@ -8,7 +8,9 @@ export const customer = object({
     .required('last_name is required')
     .default('Smith'),
   username: string()
-    .required('last_name is required')
+    .required('username is required')
     .when('$min_username_length', (minLen, schema) => (minLen === 0 || minLen > 0 ? schema.min(minLen) : schema))
     .default('in'),
 });
+
+export default customer;

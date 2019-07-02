@@ -19,7 +19,7 @@ const LazyValidation = () => {
       <Input name="first_name" label="First name" />
       <Input name="last_name" label="Last name" />
       <Input name="username" label={`Username (min length: ${formContext.min_username_length})`} />
-      <p>Form re-validate automatically after {TIMEOUT_S} seconds</p>
+      <p>Form re-validate automatically after{TIMEOUT_S} seconds</p>
     </Form>
   );
 };

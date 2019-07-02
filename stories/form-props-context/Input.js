@@ -11,12 +11,15 @@ const style = {
   },
 };
 
+// eslint-disable-next-line react/prop-types
 const TextInput = ({ name, label, emitChange, values, errors }) => {
+  // eslint-disable-next-line react/prop-types
   const inputErrors = errors ? errors.filter(err => err.name === name) : false;
   return (
     <div className="TextInput" style={style.Input}>
-      {label && <label style={style.Label}>{label}</label>}
       <input type="text" value={values[name]} name={name} onChange={e => emitChange(name, e.target.value)} />
+      {/* eslint-disable-next-line jsx-a11y/label-has-associated-control, jsx-a11y/label-has-for */}
+      {label && <label style={style.Label}>{label}</label>}
       {inputErrors && <div color="red">{inputErrors.map(err => err.message.join(', '))}</div>}
     </div>
   );
