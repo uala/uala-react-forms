@@ -73,6 +73,8 @@ describe('lazy validation', () => {
       Simulate.change(container.querySelector('input'));
     });
 
+    await delay(50);
+
     expect(container.querySelector('.TextInput').innerHTML).toContain('USERNAME ERROR');
   });
 
@@ -82,6 +84,12 @@ describe('lazy validation', () => {
     });
 
     expect(container.querySelector('input').name).toBe(FIELD_NAME);
+
+    await delay(50);
+
+    act(() => {
+      Simulate.change(container.querySelector('input'));
+    });
 
     await delay(600);
 
