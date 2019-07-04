@@ -23,6 +23,8 @@ Don't speak english? Try out our README in a different language:
 - [Installation](#installation)
 - [Usage](#usage)
 - [API](#api)
+  - [`connectForm()`](#connectform);
+  - [`connectFormElement()`](#connectformelement);
 - [License](#license)
 - [Collaboration](#collaboration)
 
@@ -98,6 +100,56 @@ this approach allows the separation on concerns by moving event handling and dis
 as possible.
 
 ## API
+
+This section list all the APIs available and possible use case scenarios.
+
+### `connectForm()`
+
+The `connectForm()` function connects the React component you want to use as form wrapper to the form state.
+
+It's also responsible to pass the  `onSubmit()`, `onChange()`, `onBlur()`, `onFocus()` and `onDidChange()` listeners to your component.
+
+#### `connectForm()` Parameters
+
+`connectForm()` accept one parameter, which is a configuration object and it's optional. By convention, the parameter is called `options`, described as shown below:
+
+- [`options?: Object`](#options-object);
+
+```js
+{
+  schema?: Object,
+  schemaVendor?: string,
+  validationMode?: string,
+  statePropagation?: boolean
+}
+```
+##### `options?: Object`
+
+|Parameter|Type|Default Value|Description|
+|----|----|----|----|
+|schema|Object|`null`|The validation schema used to validate your form. Default values are used during form initialization.|
+|schemaVendor|string|`'yup'`|The name of the schema vendor, (e.g. 'yup', 'joi')|
+|validationMode|string|`'onsubmit'`|Define when the form is validated. Allowed values are `'onsubmit','ondidchanged','onchange'`|
+|statePropagation|boolean|`false`|Enable the form state propagation, allowing children to access the parent state.|
+
+#### `connectFormElement()`
+
+`connectFormElement()` accept one argument, which is mandatory and it's the component you want to wire. Here's the list of the injected props:
+
+```js
+{
+  values: Object,
+  errors: Object,
+  focusedInputKey: string,
+  onFocus: Function,
+  onChange: Function,
+  onBlur: Function,
+  onDidChanged: Function,
+  onSubmit: Function,
+  emitEvent: Function,
+  formState: string
+}
+```
 
 ## License
 
