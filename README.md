@@ -1,4 +1,12 @@
-# @uala/react-forms
+# Uala React Forms
+
+Official Form binding developed by UALA© frontend team.
+
+Highly flexible and easy to use.
+
+Don't speak english? Try out our README in a different language:
+
+- [README Italiano :it:](README.it.md)
 
 [![Travis][build-badge]][build]
 [![npm package][npm-badge]][npm]
@@ -11,11 +19,16 @@
 [coveralls-badge]: https://img.shields.io/coveralls/uala/uala-react-forms/master.png?style=flat-square
 [coveralls]: https://coveralls.io/github/uala/uala-react-forms
 
-## Installation
+What we offer:
 
 - ready-to-use inputs validators + custom validators' setup
 - pluggable components for a complete UI customization
 - clean code style in components that uses `@uala/react-forms`
+
+## Table of contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Issues](#issues)
 
 ## Installation
 
@@ -59,7 +72,3 @@ const Field = connectFormElement(FieldComponent);
 
 If you find a bug, please file an issue on [our issue tracker on GitHub](https://github.com/uala/uala-react-forms/issues).
 
-### README languages
-
-- [English](README.md)
-- [Italiano](README.it.md)

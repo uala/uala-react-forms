@@ -1,4 +1,12 @@
-# @uala/react-forms
+# Uala React Forms
+
+Official Form binding developed by UALA© frontend team.
+
+Highly flexible and easy to use.
+
+Don't speak english? Try out our README in a different language:
+
+- [README Italiano :it:](README.it.md)
 
 [![Travis][build-badge]][build]
 [![npm package][npm-badge]][npm]
@@ -11,13 +19,56 @@
 [coveralls-badge]: https://img.shields.io/coveralls/uala/uala-react-forms/master.png?style=flat-square
 [coveralls]: https://coveralls.io/github/uala/uala-react-forms
 
-Funzioni principali
+What we offer:
 
-- Validazione degli input del form facile, attraverso `validators` inclusi, di terze parti (tramite schema), o personalizzabili
-- Componenti HTML pluggabili, per poter usare qualsiasi componente React come Input del form. Totalmente indipendente da librerie UI
-- Pulizia e comprensibilità del codice dei componenti che usano `@uala/react-forms`, per l'assenza di props da passare dal Form agli Input e la possibilità di separare in file esterno qualsiasi personalizzazione di logica e di UI
+- ready-to-use inputs validators + custom validators' setup
+- pluggable components for a complete UI customization
+- clean code style in components that uses `@uala/react-forms`
 
-### README languages
+## Table of contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Issues](#issues)
 
-- [English](README.md)
-- [Italiano](README.it.md)
+## Installation
+
+Using [npm](https://www.npmjs.com/):
+
+    $ npm install --save @uala/react-forms
+
+## Usage
+
+```js
+import React from 'react';
+import { connectForm, connectFormElement } from '@uala/react-forms';
+
+// import a schema validator
+import yupSchema from './schema/yupSchema';
+
+// write your components
+const FormComponent = ({ emitSubmit, children }) => <form onSubmit={emitSubmit}>{children}</form>;
+
+const FieldComponent = ({ emitChange, name }) => (
+  <input name={name} type="text" onChange={e => emitChange(name, e.target.value)} />
+);
+
+// wrap components in @uala/react-forms HOC
+const Form = connectForm({ schema: yupSchema, validationMode: 'onchange' })(FormComponent);
+
+const Field = connectFormElement(FieldComponent);
+
+// render
+<Form
+  onSubmit={({ values }) => {
+    /** values validated, do something... */
+  }}
+>
+  <Field name="first_name" />
+  <Field name="last_name" />
+</Form>;
+```
+
+## Issues
+
+If you find a bug, please file an issue on [our issue tracker on GitHub](https://github.com/uala/uala-react-forms/issues).
+
