@@ -6,7 +6,7 @@ Highly flexible and easy to use.
 
 Don't speak english? Try out our README in a different language:
 
-- [README Italiano :it:](README.it.md)
+- [Italiano :it:](README.it.md)
 
 [![Travis][build-badge]][build]
 [![npm package][npm-badge]][npm]
