@@ -1,5 +1,5 @@
 import React from 'react';
-import { Consumer } from './context';
+import { Consumer } from '../context';
 import connectFormElementPropTypes from './connectFormElement.propTypes';
 
 /**
