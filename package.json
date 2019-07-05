@@ -49,10 +49,14 @@
     "yup": "^0.27.0"
   },
   "author": "UALA.",
-  "homepage": "https://www.uala.com",
+  "homepage": "https://uala.com",
   "license": "MIT",
   "repository": "https://github.com/uala/uala-react-forms",
   "keywords": [
-    "react-component"
+    "react",
+    "react-forms",
+    "form",
+    "forms",
+    "context"
   ]
 }
