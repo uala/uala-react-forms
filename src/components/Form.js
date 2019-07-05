@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import connectForm from './connectForm';
+import connectForm from '../hoc/connectForm';
 
 const Form = ({ validationMode, schema, children, ...rest }) => {
   const hocWithOptions = useMemo(() => {
