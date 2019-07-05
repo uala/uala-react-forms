@@ -7,6 +7,8 @@
  */
 
 const getErrorByName = (errors, name) => {
+  if (!errors) return null;
+
   const needle = errors.find(error => error.name === name);
 
   return (needle && needle.message[0]) || null;
