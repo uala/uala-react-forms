@@ -78,7 +78,8 @@ This section list all the APIs available and possible use case scenarios.
 
 The `connectForm()` function connects the React component you want to use as form wrapper to the form state.
 
-It's also responsible to pass the  `onSubmit()`, `onChange()`, `onBlur()`, `onFocus()` and `onDidChange()` listeners to your component.
+It's also responsible to pass the  `onSubmit()`, `onChange()` and `onDidChange()` listeners to your component,
+as well as `emitSubmit()`, `emitChange()` and `emitDidChange()` event emitters.
 
 #### `connectForm()` Parameters
 
