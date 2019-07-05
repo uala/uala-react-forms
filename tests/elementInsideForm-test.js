@@ -11,7 +11,7 @@ const schema = object({
     .default('Mark'),
 });
 
-const Form = connectForm({ schema })(({ children }) => <div>{children}</div>);
+const Form = connectForm({ schema })(({ children, emitSubmit }) => <div onClick={emitSubmit}>{children}</div>);
 
 const TextInput = connectFormElement(({ name, emitChange }) => (
   <input name={name} onChange={e => emitChange(name, e.target.value)} />
@@ -20,7 +20,7 @@ const TextInput = connectFormElement(({ name, emitChange }) => (
 const DisplayFirstName = connectFormElement(({ values }) => <div dataValues={values}>{values.first_name}</div>);
 
 const TestNode = (
-  <Form>
+  <Form onSubmit={() => {}}>
     <TextInput name="first_name" />
     <TextInput name="last_name" />
     <DisplayFirstName />
@@ -41,6 +41,12 @@ describe('Form with elements', () => {
 
     await tree.children[0].props.onChange({ target: { value: 'Jhonny' } });
     tree = renderedForm.toJSON();
+    expect(tree.children[2].children[0]).toBe('Jhonny');
+    expect(tree.children[2].props.dataValues.first_name).toBe('Jhonny');
+
+    await tree.props.onClick();
+    tree = renderedForm.toJSON();
+
     expect(tree.children[2].children[0]).toBe('Jhonny');
     expect(tree.children[2].props.dataValues.first_name).toBe('Jhonny');
   });
