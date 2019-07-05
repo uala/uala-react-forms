@@ -1,5 +1,5 @@
 {
-  "name": "@uala/uala-react-forms",
+  "name": "@uala/react-forms",
   "version": "0.1.0",
   "description": "Make form clean, UI independent, validated",
   "main": "lib/index.js",
@@ -48,10 +48,10 @@
     "react-test-renderer": "^16.8.6",
     "yup": "^0.27.0"
   },
-  "author": "",
-  "homepage": "",
+  "author": "UALA.",
+  "homepage": "https://www.uala.com",
   "license": "MIT",
-  "repository": "",
+  "repository": "https://github.com/uala/uala-react-forms",
   "keywords": [
     "react-component"
   ]
