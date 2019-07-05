@@ -4,8 +4,8 @@
 [![npm package][npm-badge]][npm]
 [![Coveralls][coveralls-badge]][coveralls]
 
-[build-badge]: https://img.shields.io/travis/uala/uala-react-forms/master.png?style=flat-square
-[build]: https://travis-ci.org/uala/uala-react-forms
+[build-badge]: https://travis-ci.com/uala/uala-react-forms.svg?branch=master
+[build]: https://travis-ci.com/uala/uala-react-forms.svg?branch=master
 [npm-badge]: https://img.shields.io/npm/v/@uala/react-forms.png?style=flat-square
 [npm]: https://www.npmjs.org/package/@uala/react-forms
 [coveralls-badge]: https://img.shields.io/coveralls/uala/uala-react-forms/master.png?style=flat-square
