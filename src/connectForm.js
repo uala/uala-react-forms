@@ -45,6 +45,10 @@ const connectForm = options => Target => {
     const shouldValidate = eventType => {
       const { validationMode } = optionsWithDefaults;
 
+      if (!schemaInterface) {
+        return false;
+      }
+
       if (eventType === Events.ON_SUBMIT) {
         return true;
       }
