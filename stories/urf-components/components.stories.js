@@ -32,9 +32,15 @@ const MyForm = () => {
 
   return (
     <Form schema={schema}>
-      {({ values }) => (
+      {({ values, emitChange }) => (
         <form onSubmit={e => handleSubmit(e, values)}>
           <MyElement />
+          <input
+            type="text"
+            value={values.last_name || ''}
+            onChange={e => emitChange('last_name', e.target.value)}
+            placeholder=""
+          />
           <input type="submit" value="Submit" />
         </form>
       )}
