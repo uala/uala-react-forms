@@ -5,6 +5,7 @@ const propTypes = {
   onSubmit: PropTypes.func,
   onChange: PropTypes.func,
   onDidChange: PropTypes.func,
+  onEvent: PropTypes.func,
 };
 
 export default propTypes;

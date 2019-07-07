@@ -10,11 +10,19 @@ import connectFormElementPropTypes from './connectFormElement.propTypes';
  * @returns {function(*): *}
  */
 const connectFormElement = Target => {
-  function FormElement({ onChange, ...props }) {
+  function FormElement({ onChange, onDidChange, onSubmit, onEvent, ...props }) {
     return (
       <Consumer>
         {({ values, errors, emitChange, emitEvent, emitDidChange, emitSubmit }) => {
-          const emitChangeHandler = (...args) => {
+          const handleEvent = (...args) => {
+            emitEvent(...args);
+
+            if (onEvent) {
+              onEvent(...args);
+            }
+          };
+
+          const handleChange = (...args) => {
             emitChange(...args);
 
             if (onChange) {
@@ -22,14 +30,30 @@ const connectFormElement = Target => {
             }
           };
 
+          const handleSubmit = (...args) => {
+            emitSubmit(...args);
+
+            if (onSubmit) {
+              onSubmit(...args);
+            }
+          };
+
+          const handleDidChange = (...args) => {
+            emitDidChange(...args);
+
+            if (onDidChange) {
+              onDidChange(...args);
+            }
+          };
+
           return (
             <Target
               values={values}
               errors={errors || null}
-              emitChange={emitChangeHandler}
-              emitEvent={emitEvent}
-              emitDidChange={emitDidChange}
-              emitSubmit={emitSubmit}
+              emitChange={handleChange}
+              emitEvent={handleEvent}
+              emitDidChange={handleDidChange}
+              emitSubmit={handleSubmit}
               {...props}
             />
           );
