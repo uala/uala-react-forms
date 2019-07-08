@@ -57,19 +57,17 @@ const connectFormElement = Target => {
 
     return (
       <Consumer>
-        {({ values, errors, emitDidChange, emitChange, emitEvent, emitSubmit }) => {
-          return (
-            <Target
-              values={values}
-              errors={errors || null}
-              emitChange={handleChange(emitChange)}
-              emitEvent={handleEvent(emitEvent)}
-              emitDidChange={handleDidChange(emitDidChange)}
-              emitSubmit={handleSubmit(emitSubmit)}
-              {...props}
-            />
-          );
-        }}
+        {({ values, errors, emitDidChange, emitChange, emitEvent, emitSubmit }) => (
+          <Target
+            values={values}
+            errors={errors || null}
+            emitChange={handleChange(emitChange)}
+            emitEvent={handleEvent(emitEvent)}
+            emitDidChange={handleDidChange(emitDidChange)}
+            emitSubmit={handleSubmit(emitSubmit)}
+            {...props}
+          />
+        )}
       </Consumer>
     );
   }
