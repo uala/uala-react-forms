@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Provider } from '../context';
+import { Provider, mergeDefaultOptions } from '../utils';
 import createSchema from '../schema';
-import mergeDefaultOptions from '../mergeDefaultOptions';
 import connectFormPropTypes from './connectForm.propTypes';
 import * as Events from './connectForm.events';
 

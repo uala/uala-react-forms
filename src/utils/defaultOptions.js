@@ -1,4 +1,4 @@
-import { ON_SUBMIT } from './hoc/connectForm.events';
+import { ON_SUBMIT } from '../hoc/connectForm.events';
 
 const defaultOptions = {
   vendor: 'yup',

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Consumer } from '../context';
+import { Consumer, createHandler } from '../utils';
 import connectFormElementPropTypes from './connectFormElement.propTypes';
 
 /**
@@ -11,13 +11,7 @@ import connectFormElementPropTypes from './connectFormElement.propTypes';
  */
 const connectFormElement = Target => {
   function FormElement({ onChange, onDidChange, onSubmit, onEvent, ...props }) {
-    const createHandler = (emitter, listener) =>
-      listener
-        ? (...args) => {
-            emitter(...args);
-            listener(...args);
-          }
-        : emitter;
+
 
     const handleEvent = useCallback(emitEvent => createHandler(emitEvent, onEvent), [onEvent]);
 
