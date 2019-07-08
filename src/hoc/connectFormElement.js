@@ -28,8 +28,6 @@ const connectFormElement = Target => {
           ? (...args) => {
               emitChange(...args);
               onChange(...args);
-
-              console.log('asdfoiu');
             }
           : emitChange,
       [onChange]
