@@ -33,33 +33,39 @@ const connectFormElement = Target => {
       [onChange]
     );
 
-    return (
-      <Consumer>
-        {({ values, errors, emitDidChange, emitSubmit }) => {
-          const handleSubmit = (...args) => {
-            emitSubmit(...args);
-
-            if (onSubmit) {
+    const handleSubmit = useCallback(
+      emitSubmit =>
+        onSubmit
+          ? (...args) => {
+              emitSubmit(...args);
               onSubmit(...args);
             }
-          };
+          : emitSubmit,
+      [onSubmit]
+    );
 
-          const handleDidChange = (...args) => {
-            emitDidChange(...args);
-
-            if (onDidChange) {
+    const handleDidChange = useCallback(
+      emitDidChange =>
+        onDidChange
+          ? (...args) => {
+              emitDidChange(...args);
               onDidChange(...args);
             }
-          };
+          : emitDidChange,
+      [onDidChange]
+    );
 
+    return (
+      <Consumer>
+        {({ values, errors, emitDidChange, emitChange, emitEvent, emitSubmit }) => {
           return (
             <Target
               values={values}
               errors={errors || null}
-              emitChange={handleChange}
-              emitEvent={handleEvent}
-              emitDidChange={handleDidChange}
-              emitSubmit={handleSubmit}
+              emitChange={handleChange(emitChange)}
+              emitEvent={handleEvent(emitEvent)}
+              emitDidChange={handleDidChange(emitDidChange)}
+              emitSubmit={handleSubmit(emitSubmit)}
               {...props}
             />
           );
