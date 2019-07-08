@@ -11,27 +11,59 @@ import connectFormElementPropTypes from './connectFormElement.propTypes';
  */
 const connectFormElement = Target => {
   function FormElement({ onChange, onDidChange, onSubmit, onEvent, ...props }) {
-    const handleEmitter = useCallback((emitter, listener, ...args) => {
-      emitter(...args);
+    const handleEvent = useCallback(
+      emitEvent =>
+        onEvent
+          ? (...args) => {
+              emitEvent(...args);
+              onEvent(...args);
+            }
+          : emitEvent,
+      [onEvent]
+    );
 
-      if (listener) {
-        listener(...args);
-      }
-    }, []);
+    const handleChange = useCallback(
+      emitChange =>
+        onChange
+          ? (...args) => {
+              emitChange(...args);
+              onChange(...args);
+            }
+          : emitChange,
+      [onChange]
+    );
 
     return (
       <Consumer>
-        {({ values, errors, emitDidChange, emitChange, emitEvent, emitSubmit }) => (
-          <Target
-            values={values}
-            errors={errors || null}
-            emitChange={(...eventValues) => handleEmitter(emitChange, onChange, ...eventValues)}
-            emitEvent={(...eventValues) => handleEmitter(emitEvent, onEvent, ...eventValues)}
-            emitDidChange={(...eventValues) => handleEmitter(emitDidChange, onDidChange, ...eventValues)}
-            emitSubmit={(...eventValues) => handleEmitter(emitSubmit, onSubmit, ...eventValues)}
-            {...props}
-          />
-        )}
+        {({ values, errors, emitDidChange, emitChange, emitSubmit }) => {
+          const handleSubmit = (...args) => {
+            emitSubmit(...args);
+
+            if (onSubmit) {
+              onSubmit(...args);
+            }
+          };
+
+          const handleDidChange = (...args) => {
+            emitDidChange(...args);
+
+            if (onDidChange) {
+              onDidChange(...args);
+            }
+          };
+
+          return (
+            <Target
+              values={values}
+              errors={errors || null}
+              emitChange={(...eventValues) => handleChange(emitChange, onChange, ...eventValues)}
+              emitEvent={handleEvent}
+              emitDidChange={handleDidChange}
+              emitSubmit={handleSubmit}
+              {...props}
+            />
+          );
+        }}
       </Consumer>
     );
   }
