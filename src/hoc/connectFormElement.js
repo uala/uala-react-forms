@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Consumer } from '../context';
 import connectFormElementPropTypes from './connectFormElement.propTypes';
 
@@ -11,52 +11,27 @@ import connectFormElementPropTypes from './connectFormElement.propTypes';
  */
 const connectFormElement = Target => {
   function FormElement({ onChange, onDidChange, onSubmit, onEvent, ...props }) {
+    const handleEmitter = useCallback((emitter, listener, ...args) => {
+      emitter(...args);
+
+      if (listener) {
+        listener(...args);
+      }
+    }, []);
+
     return (
       <Consumer>
-        {({ values, errors, emitChange, emitEvent, emitDidChange, emitSubmit }) => {
-          const handleEvent = onEvent
-            ? (...args) => {
-                emitEvent(...args);
-                onEvent(...args);
-              }
-            : emitEvent;
-
-          const handleChange = (...args) => {
-            emitChange(...args);
-
-            if (onChange) {
-              onChange(...args);
-            }
-          };
-
-          const handleSubmit = (...args) => {
-            emitSubmit(...args);
-
-            if (onSubmit) {
-              onSubmit(...args);
-            }
-          };
-
-          const handleDidChange = (...args) => {
-            emitDidChange(...args);
-
-            if (onDidChange) {
-              onDidChange(...args);
-            }
-          };
-
-          return (
-            <Target
-              values={values}
-              errors={errors || null}
-              emitChange={handleChange}
-              emitEvent={handleEvent}
-              emitDidChange={handleDidChange}
-              emitSubmit={handleSubmit}
-              {...props}
-            />
-          );
-        }}
+        {({ values, errors, emitDidChange, emitChange, emitEvent, emitSubmit }) => (
+          <Target
+            values={values}
+            errors={errors || null}
+            emitChange={(...eventValues) => handleEmitter(emitChange, onChange, ...eventValues)}
+            emitEvent={(...eventValues) => handleEmitter(emitEvent, onEvent, ...eventValues)}
+            emitDidChange={(...eventValues) => handleEmitter(emitDidChange, onDidChange, ...eventValues)}
+            emitSubmit={(...eventValues) => handleEmitter(emitSubmit, onSubmit, ...eventValues)}
+            {...props}
+          />
+        )}
       </Consumer>
     );
   }
