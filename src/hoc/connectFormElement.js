@@ -28,6 +28,8 @@ const connectFormElement = Target => {
           ? (...args) => {
               emitChange(...args);
               onChange(...args);
+
+              console.log('asdfoiu');
             }
           : emitChange,
       [onChange]
@@ -35,7 +37,7 @@ const connectFormElement = Target => {
 
     return (
       <Consumer>
-        {({ values, errors, emitDidChange, emitChange, emitSubmit }) => {
+        {({ values, errors, emitDidChange, emitSubmit }) => {
           const handleSubmit = (...args) => {
             emitSubmit(...args);
 
@@ -56,7 +58,7 @@ const connectFormElement = Target => {
             <Target
               values={values}
               errors={errors || null}
-              emitChange={(...eventValues) => handleChange(emitChange, onChange, ...eventValues)}
+              emitChange={handleChange}
               emitEvent={handleEvent}
               emitDidChange={handleDidChange}
               emitSubmit={handleSubmit}
