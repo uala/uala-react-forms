@@ -14,13 +14,12 @@ const connectFormElement = Target => {
     return (
       <Consumer>
         {({ values, errors, emitChange, emitEvent, emitDidChange, emitSubmit }) => {
-          const handleEvent = (...args) => {
-            emitEvent(...args);
-
-            if (onEvent) {
-              onEvent(...args);
-            }
-          };
+          const handleEvent = onEvent
+            ? (...args) => {
+                emitEvent(...args);
+                onEvent(...args);
+              }
+            : emitEvent;
 
           const handleChange = (...args) => {
             emitChange(...args);
