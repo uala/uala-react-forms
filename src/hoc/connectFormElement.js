@@ -11,49 +11,21 @@ import connectFormElementPropTypes from './connectFormElement.propTypes';
  */
 const connectFormElement = Target => {
   function FormElement({ onChange, onDidChange, onSubmit, onEvent, ...props }) {
-    const handleEvent = useCallback(
-      emitEvent =>
-        onEvent
-          ? (...args) => {
-              emitEvent(...args);
-              onEvent(...args);
-            }
-          : emitEvent,
-      [onEvent]
-    );
+    const createHandler = (emitter, listener) =>
+      listener
+        ? (...args) => {
+            emitter(...args);
+            listener(...args);
+          }
+        : emitter;
 
-    const handleChange = useCallback(
-      emitChange =>
-        onChange
-          ? (...args) => {
-              emitChange(...args);
-              onChange(...args);
-            }
-          : emitChange,
-      [onChange]
-    );
+    const handleEvent = useCallback(emitEvent => createHandler(emitEvent, onEvent), [onEvent]);
 
-    const handleSubmit = useCallback(
-      emitSubmit =>
-        onSubmit
-          ? (...args) => {
-              emitSubmit(...args);
-              onSubmit(...args);
-            }
-          : emitSubmit,
-      [onSubmit]
-    );
+    const handleChange = useCallback(emitChange => createHandler(emitChange, onChange), [onChange]);
 
-    const handleDidChange = useCallback(
-      emitDidChange =>
-        onDidChange
-          ? (...args) => {
-              emitDidChange(...args);
-              onDidChange(...args);
-            }
-          : emitDidChange,
-      [onDidChange]
-    );
+    const handleSubmit = useCallback(emitSubmit => createHandler(emitSubmit, onSubmit), [onSubmit]);
+
+    const handleDidChange = useCallback(emitDidChange => createHandler(emitDidChange, onDidChange), [onDidChange]);
 
     return (
       <Consumer>
