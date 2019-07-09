@@ -1,5 +1,5 @@
 import './Schema.type';
-import castInterface from '../castInterface';
+import castInterface from '../utils/castInterface';
 
 import standardiseYupErrors from './standardiseYupErrors';
 import UalaSchemaErrorInterface from './UalaSchemaErrorInterface';

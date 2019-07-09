@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { mergeDefaultOptions } from '../utils';
 import { Provider } from '../context';
 import createSchema from '../schema';
-import mergeDefaultOptions from '../mergeDefaultOptions';
 import connectFormPropTypes from './connectForm.propTypes';
 import * as Events from './connectForm.events';
 
@@ -29,7 +29,7 @@ const connectForm = options => Target => {
   const schemaInterface =
     schema && Object.keys(schema).length > 0 ? createSchema(schema, optionsWithDefaults.vendor) : null;
 
-  function Form({ onSubmit, onChange, ...props }) {
+  function Form({ onSubmit, onChange, onDidChange, onEvent, ...props }) {
     const { context } = props || {};
     const defaultValues = (schemaInterface && schemaInterface.getDefaults(context)) || {};
 
@@ -98,8 +98,19 @@ const connectForm = options => Target => {
 
           break;
         case Events.ON_DID_CHANGE:
+          await validateIfNeeded(type);
+
+          if (onDidChange) {
+            onDidChange(name, value);
+          }
+
+          break;
         default:
           await validateIfNeeded(type);
+
+          if (onEvent) {
+            onEvent(name, value);
+          }
           break;
       }
     };

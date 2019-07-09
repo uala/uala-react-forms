@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { createHandler } from '../utils';
 import { Consumer } from '../context';
 import connectFormElementPropTypes from './connectFormElement.propTypes';
 
@@ -10,30 +11,28 @@ import connectFormElementPropTypes from './connectFormElement.propTypes';
  * @returns {function(*): *}
  */
 const connectFormElement = Target => {
-  function FormElement({ onChange, ...props }) {
+  function FormElement({ onChange, onDidChange, onSubmit, onEvent, ...props }) {
+    const handleEvent = useCallback(emitEvent => createHandler(emitEvent, onEvent), [onEvent]);
+
+    const handleChange = useCallback(emitChange => createHandler(emitChange, onChange), [onChange]);
+
+    const handleSubmit = useCallback(emitSubmit => createHandler(emitSubmit, onSubmit), [onSubmit]);
+
+    const handleDidChange = useCallback(emitDidChange => createHandler(emitDidChange, onDidChange), [onDidChange]);
+
     return (
       <Consumer>
-        {({ values, errors, emitChange, emitEvent, emitDidChange, emitSubmit }) => {
-          const emitChangeHandler = (...args) => {
-            emitChange(...args);
-
-            if (onChange) {
-              onChange(...args);
-            }
-          };
-
-          return (
-            <Target
-              values={values}
-              errors={errors || null}
-              emitChange={emitChangeHandler}
-              emitEvent={emitEvent}
-              emitDidChange={emitDidChange}
-              emitSubmit={emitSubmit}
-              {...props}
-            />
-          );
-        }}
+        {({ values, errors, emitDidChange, emitChange, emitEvent, emitSubmit }) => (
+          <Target
+            values={values}
+            errors={errors || null}
+            emitChange={handleChange(emitChange)}
+            emitEvent={handleEvent(emitEvent)}
+            emitDidChange={handleDidChange(emitDidChange)}
+            emitSubmit={handleSubmit(emitSubmit)}
+            {...props}
+          />
+        )}
       </Consumer>
     );
   }
