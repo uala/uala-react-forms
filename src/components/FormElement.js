@@ -1,4 +1,4 @@
-import connectFormElement from '../hoc/connectFormElement';
+import { connectFormElement } from '../hoc';
 
 const FormElement = connectFormElement(({ children, ...rest }) => children(rest));
 
