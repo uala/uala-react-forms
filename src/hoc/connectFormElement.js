@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
-import { Consumer, createHandler } from '../utils';
+import { createHandler } from '../utils';
+import { Consumer } from '../context';
 import connectFormElementPropTypes from './connectFormElement.propTypes';
 
 /**
