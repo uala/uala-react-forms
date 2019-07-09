@@ -34,11 +34,17 @@ describe('lazy validation', () => {
     return <form className="Form">{children}</form>;
   });
 
-  const Input = connectFormElement(({ name, emitChange, values, errors }) => {
+  const Input = connectFormElement(({ name, emitChange, emitDidChange, values, errors }) => {
     const inputErrors = (errors || []).find(err => err.name === name);
     return (
       <div className="TextInput">
-        <input type="text" name={name} value={values[name]} onChange={e => emitChange(name, e.target.value)} />
+        <input
+          type="text"
+          name={name}
+          value={values[name]}
+          onChange={e => emitChange(name, e.target.value)}
+          onBlur={e => emitDidChange(name, e.target.value)}
+        />
         {inputErrors && <span>USERNAME ERROR</span>}
       </div>
     );

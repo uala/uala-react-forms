@@ -11,8 +11,6 @@ import connectFormElementPropTypes from './connectFormElement.propTypes';
  */
 const connectFormElement = Target => {
   function FormElement({ onChange, onDidChange, onSubmit, onEvent, ...props }) {
-
-
     const handleEvent = useCallback(emitEvent => createHandler(emitEvent, onEvent), [onEvent]);
 
     const handleChange = useCallback(emitChange => createHandler(emitChange, onChange), [onChange]);
