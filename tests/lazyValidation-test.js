@@ -30,9 +30,11 @@ describe('lazy validation', () => {
       .default('in'),
   });
 
-  const Form = connectForm({ schema: customer, validationMode: 'onchange' })(({ children }) => {
-    return <form className="Form">{children}</form>;
-  });
+  const Form = connectForm({ schema: customer, validationMode: 'onchange' })(({ children, onSubmit, onChange }) => (
+    <form className="Form" onChange={onChange} onSubmit={onSubmit}>
+      {children}
+    </form>
+  ));
 
   const Input = connectFormElement(({ name, emitChange, emitDidChange, values, errors }) => {
     const inputErrors = (errors || []).find(err => err.name === name);
