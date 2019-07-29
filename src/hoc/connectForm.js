@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { mergeDefaultOptions } from '../utils';
+import React, { useState, useEffect, useRef } from 'react';
+import { mergeDefaultOptions, shallowCompare } from '../utils';
 import { Provider } from '../context';
 import createSchema from '../schema';
 import connectFormPropTypes from './connectForm.propTypes';
@@ -33,7 +33,7 @@ const connectForm = options => Target => {
     const { context } = props || {};
     const defaultValues = (schemaInterface && schemaInterface.getDefaults(context)) || {};
 
-    const [values, setValues] = useState(defaultValues);
+    const [values, setValues] = useState({});
     const [errors, setErrors] = useState(null);
     const [touched, setTouched] = useState(false);
     const [validationCount, setValidationCount] = useState(0);
@@ -115,6 +115,15 @@ const connectForm = options => Target => {
       }
     };
 
+    useEffect(() => {
+      if (shallowCompare(defaultValues, values) || touched) {
+        return;
+      }
+
+      setValues(defaultValues);
+    }, [defaultValues]);
+
+    // Register validation
     useEffect(() => {
       const { validationMode } = optionsWithDefaults;
 
