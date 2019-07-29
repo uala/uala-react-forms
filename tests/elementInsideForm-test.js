@@ -1,6 +1,7 @@
 import expect from 'expect';
 import React from 'react';
-import { create } from 'react-test-renderer';
+import { render, unmountComponentAtNode } from 'react-dom';
+import { act, Simulate } from 'react-dom/test-utils';
 import { object, string } from 'yup';
 
 import { Form, FormElement, getErrorByName } from '../src';
@@ -17,18 +18,26 @@ const schema = object({
 // eslint-disable-next-line react/prop-types
 const TextInput = ({ name, emitDidChange }) => (
   <FormElement>
-    {({ emitChange }) => <input name={name} onChange={e => emitChange(name, e.target.value)} onBlur={emitDidChange} />}
+    {({ emitChange }) => (
+      <input
+        name={name}
+        onChange={e => {
+          emitChange(name, e.target.value);
+        }}
+        onBlur={emitDidChange}
+      />
+    )}
   </FormElement>
 );
 
 const DisplayFirstName = () => (
-  <FormElement>{({ values }) => <div dataValues={values}>{values.first_name}</div>}</FormElement>
+  <FormElement>{({ values }) => <div>{values.first_name}</div>}</FormElement>
 );
 
 // eslint-disable-next-line react/prop-types
 const Errors = ({ name }) => <FormElement>{({ errors }) => <div>{getErrorByName(errors, name)}</div>}</FormElement>;
 
-const TestNode = (
+const TestNode = () => (
   <Form schema={schema} onSubmit={() => {}} onDidChange={() => {}}>
     {({ emitSubmit, emitDidChange, emitChange }) => (
       <div>
@@ -44,33 +53,52 @@ const TestNode = (
   </Form>
 );
 
+let node;
+
+beforeEach(() => {
+  node = document.createElement('div');
+});
+
+afterEach(() => {
+  unmountComponentAtNode(node);
+});
+
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 describe('Form with elements', () => {
   it('Mount', async () => {
-    let tree;
-    const renderedForm = create(TestNode);
-    tree = renderedForm.toJSON();
+    act(() => {
+      render(<TestNode />, node);
+    });
 
-    expect(tree.children.length).toBe(7);
-    expect(tree.children[0].props.name).toBe('first_name');
-    expect(tree.children[2].children[0]).toBe('Mark');
-    expect(tree.children[2].props.dataValues.first_name).toBe('Mark');
-    expect(tree.children[0].props.onChange).toBeA('function');
+    const form = node.children[0];
+    const errorDisplay = form.children[3];
 
-    await tree.children[0].props.onChange({ target: { value: 'Jhonny' } });
-    tree = renderedForm.toJSON();
-    expect(tree.children[2].children[0]).toBe('Jhonny');
-    expect(tree.children[2].props.dataValues.first_name).toBe('Jhonny');
+    expect(form.children.length).toBe(7);
 
-    await tree.children[4].props.onClick();
-    tree = renderedForm.toJSON();
+    const firstName = form.children[0];
 
-    await tree.children[5].props.onClick();
-    tree = renderedForm.toJSON();
+    expect(firstName.name).toBe('first_name');
+    expect(form.children[2].innerHTML).toBe('Mark');
+    expect(errorDisplay.innerHTML).toBe('');
 
-    await tree.children[6].props.onClick();
-    tree = renderedForm.toJSON();
+    Simulate.change(firstName, { target: { value: 'Jhonny' } });
+    await delay(500);
 
-    expect(tree.children[2].children[0]).toBe('Jhonny');
-    expect(tree.children[2].props.dataValues.first_name).toBe('Jhonny');
+    expect(form.children[2].innerHTML).toBe('Jhonny');
+
+    const submitButton = form.children[4];
+    Simulate.click(submitButton);
+    await delay(500);
+
+    expect(errorDisplay.innerHTML).toBe('last name is required');
+
+    const didChangeButton = form.children[5];
+    Simulate.click(didChangeButton);
+    await delay(500);
+
+    const changeButton = form.children[6];
+    Simulate.click(changeButton);
+    await delay(500);
   });
 });

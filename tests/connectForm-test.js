@@ -1,6 +1,7 @@
 import expect from 'expect';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
+import { act, Simulate } from 'react-dom/test-utils';
 import { object, string } from 'yup';
 
 import { connectForm } from '../src';
@@ -46,5 +47,40 @@ describe('connectForm', () => {
     render(<FormWithSchema />, node, () => {
       expect(node.innerHTML).toContain('Welcome to React components');
     });
+  });
+
+  it('should re-render if default values changes', async () => {
+    const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+    const schema = object({
+      first_name: string().when('$first_name', (value, field) => field.default(value)),
+    });
+
+    const FormWithSchema = connectForm({
+      schema,
+    })(({ values }) => <div>{`${values.first_name ? `Welcome ${values.first_name}` : 'Welcome back!'}`}</div>);
+
+    const FormContainer = () => {
+      const [context, setContext] = useState({});
+
+      useEffect(() => {
+        const timeout = setTimeout(() => {
+          setContext({ first_name: 'Pippo' });
+        }, 500);
+        return () => clearTimeout(timeout);
+      }, []);
+
+      return <FormWithSchema context={context} />;
+    };
+
+    act(() => {
+      render(<FormContainer />, node);
+    });
+
+    expect(node.innerHTML).toContain('Welcome back');
+
+    await delay(1500);
+
+    expect(node.innerHTML).toContain('Welcome Pippo');
   });
 });
