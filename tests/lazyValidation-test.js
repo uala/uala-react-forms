@@ -43,7 +43,7 @@ describe('lazy validation', () => {
         <input
           type="text"
           name={name}
-          value={values[name]}
+          defaultValue={values[name]}
           onChange={e => emitChange(name, e.target.value)}
           onBlur={e => emitDidChange(name, e.target.value)}
         />
@@ -68,6 +68,7 @@ describe('lazy validation', () => {
       </Form>
     );
   };
+
   it('Validate after context change and input change', async () => {
     act(() => {
       ReactDOM.render(<LazyValidation />, container);
