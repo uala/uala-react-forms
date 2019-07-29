@@ -83,22 +83,22 @@ describe('Form with elements', () => {
     expect(errorDisplay.innerHTML).toBe('');
 
     Simulate.change(firstName, { target: { value: 'Jhonny' } });
-    await delay(500);
+    await delay(100);
 
     expect(form.children[2].innerHTML).toBe('Jhonny');
 
     const submitButton = form.children[4];
     Simulate.click(submitButton);
-    await delay(500);
+    await delay(100);
 
     expect(errorDisplay.innerHTML).toBe('last name is required');
 
     const didChangeButton = form.children[5];
     Simulate.click(didChangeButton);
-    await delay(500);
+    await delay(100);
 
     const changeButton = form.children[6];
     Simulate.click(changeButton);
-    await delay(500);
+    await delay(100);
   });
 });
