@@ -1,7 +1,7 @@
 import expect from 'expect';
 import React, { useEffect, useState } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
-import { act, Simulate } from 'react-dom/test-utils';
+import { act } from 'react-dom/test-utils';
 import { object, string } from 'yup';
 
 import { connectForm } from '../src';
@@ -61,16 +61,16 @@ describe('connectForm', () => {
     })(({ values }) => <div>{`${values.first_name ? `Welcome ${values.first_name}` : 'Welcome back!'}`}</div>);
 
     const FormContainer = () => {
-      const [context, setContext] = useState({});
+      const [values, setValues] = useState({});
 
       useEffect(() => {
         const timeout = setTimeout(() => {
-          setContext({ first_name: 'Pippo' });
+          setValues({ first_name: 'Pippo' });
         }, 500);
         return () => clearTimeout(timeout);
       }, []);
 
-      return <FormWithSchema context={context} />;
+      return <FormWithSchema initialValues={values} />;
     };
 
     act(() => {
@@ -79,7 +79,7 @@ describe('connectForm', () => {
 
     expect(node.innerHTML).toContain('Welcome back');
 
-    await delay(1500);
+    await delay(550);
 
     expect(node.innerHTML).toContain('Welcome Pippo');
   });
