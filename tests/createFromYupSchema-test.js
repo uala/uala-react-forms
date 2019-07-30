@@ -28,8 +28,6 @@ describe('Create interface from yup schema', () => {
 
     const values = schema.cast({ firstName: 'Frank' }, { originalLastName: 'Dewalt' });
 
-    console.log(values);
-
     expect(shallowCompare(values, { firstName: 'Frank', lastName: 'Dewalt' })).toBe(true);
   });
 });
