@@ -29,17 +29,35 @@ const connectForm = options => Target => {
   const schemaInterface =
     schema && Object.keys(schema).length > 0 ? createSchema(schema, optionsWithDefaults.vendor) : null;
 
-  function Form({ onSubmit, onChange, onDidChange, onEvent, ...props }) {
-    const { context } = props || {};
-    const defaultValues = (schemaInterface && schemaInterface.getDefaults(context)) || {};
+  function Form({
+    context = null,
+    initialValues = {},
+    resetOnInitialValuesChange = false,
+    onSubmit,
+    onChange,
+    onDidChange,
+    onEvent,
+    ...props
+  }) {
+    const defaultValues = (schemaInterface && schemaInterface.getDefaults()) || {};
+    const initialValuesRef = useRef(initialValues);
 
-    const [values, setValues] = useState({});
+    const [values, setValues] = useState({
+      ...defaultValues,
+      ...initialValuesRef.current,
+    });
     const [errors, setErrors] = useState(null);
     const [touched, setTouched] = useState(false);
     const [validationCount, setValidationCount] = useState(0);
 
     let newValues = values;
     let newErrors = errors;
+
+    const reset = () => {
+      setErrors(null);
+      setValues(initialValuesRef.current);
+      setTouched(false);
+    };
 
     // Validation
     const shouldValidate = eventType => {
@@ -116,12 +134,17 @@ const connectForm = options => Target => {
     };
 
     useEffect(() => {
-      if (shallowCompare(defaultValues, values) || touched) {
+      if (shallowCompare(initialValuesRef.current, initialValues)) {
         return;
       }
 
-      setValues(defaultValues);
-    }, [defaultValues]);
+      if (touched && !resetOnInitialValuesChange) {
+        return;
+      }
+
+      initialValuesRef.current = initialValues;
+      reset();
+    }, [initialValues]);
 
     // Register validation
     useEffect(() => {
