@@ -7,6 +7,7 @@ import './Schema.type';
 const createFromCustomSchema = schema => ({
   validate: schema.validate.bind(schema),
   getDefaults: schema.default.bind(schema),
+  cast: schema.cast.bind(schema),
 });
 
 export default createFromCustomSchema;
