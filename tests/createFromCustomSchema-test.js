@@ -4,6 +4,7 @@ import createSchema from '../src/schema';
 const schema = {
   validate: () => {},
   default: () => {},
+  cast: () => {},
 };
 
 describe('Create interface from custom schema', () => {
@@ -12,5 +13,6 @@ describe('Create interface from custom schema', () => {
 
     expect(schemaInterface.validate).toBeA('function');
     expect(schemaInterface.getDefaults).toBeA('function');
+    expect(schemaInterface.cast).toBeA('function');
   });
 });

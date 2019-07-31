@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { mergeDefaultOptions } from '../utils';
+import React, { useState, useEffect, useRef, useReducer } from 'react';
+import { mergeDefaultOptions, shallowCompare } from '../utils';
 import { Provider } from '../context';
 import createSchema from '../schema';
 import connectFormPropTypes from './connectForm.propTypes';
 import * as Events from './connectForm.events';
+import * as Actions from './connectForm.actions';
+import urfReducer from './connectForm.reducer';
 
 /**
  * Connect the form properties, such schema, validation mode, etc. to the `Component`
@@ -29,17 +31,35 @@ const connectForm = options => Target => {
   const schemaInterface =
     schema && Object.keys(schema).length > 0 ? createSchema(schema, optionsWithDefaults.vendor) : null;
 
-  function Form({ onSubmit, onChange, onDidChange, onEvent, ...props }) {
-    const { context } = props || {};
-    const defaultValues = (schemaInterface && schemaInterface.getDefaults(context)) || {};
+  function Form({
+    context = null,
+    initialValues = {},
+    resetOnInitialValuesChange = false,
+    onSubmit,
+    onChange,
+    onDidChange,
+    onEvent,
+    ...props
+  }) {
+    const defaultValues = (schemaInterface && schemaInterface.getDefaults()) || {};
+    const initialValuesRef = useRef(initialValues);
 
-    const [values, setValues] = useState(defaultValues);
-    const [errors, setErrors] = useState(null);
-    const [touched, setTouched] = useState(false);
-    const [validationCount, setValidationCount] = useState(0);
+    const [state, dispatch] = useReducer(urfReducer, {
+      values: { ...defaultValues, ...initialValuesRef.current },
+      errors: null,
+      touched: false,
+      validationCount: 0,
+    });
 
-    let newValues = values;
-    let newErrors = errors;
+    let newValues = state.values;
+    let newErrors = state.errors;
+
+    const reset = () => {
+      dispatch({
+        type: Actions.UPDATE_FORM,
+        payload: { errors: null, values: initialValuesRef.current, touched: false },
+      });
+    };
 
     // Validation
     const shouldValidate = eventType => {
@@ -59,11 +79,11 @@ const connectForm = options => Target => {
     const runValidation = async () => {
       const validation = await schemaInterface.validate(newValues, context);
 
-      await setValidationCount(validationCount + 1);
+      await dispatch({ type: Actions.UPDATE_FORM, payload: { validationCount: state.validationCount + 1 } });
 
-      if (errors !== validation.errors) {
+      if (state.errors !== validation.errors) {
         newErrors = validation.errors;
-        await setErrors(newErrors);
+        await dispatch({ type: Actions.UPDATE_FORM, payload: { errors: newErrors } });
       }
     };
 
@@ -80,16 +100,15 @@ const connectForm = options => Target => {
           await validateIfNeeded(type);
 
           if (onSubmit && !newErrors) {
-            await setTouched(false);
-            onSubmit({ values });
+            await dispatch({ type: Actions.UPDATE_FORM, payload: { touched: false } });
+            onSubmit({ values: state.values });
           }
 
           break;
         case Events.ON_CHANGE:
-          newValues = { ...values, [name]: value };
+          newValues = { ...state.values, [name]: value };
 
-          await setTouched(true);
-          await setValues(newValues);
+          await dispatch({ type: Actions.UPDATE_FORM, payload: { touched: true, values: newValues } });
           await validateIfNeeded(type);
 
           if (onChange) {
@@ -116,9 +135,23 @@ const connectForm = options => Target => {
     };
 
     useEffect(() => {
+      if (shallowCompare(initialValuesRef.current, initialValues)) {
+        return;
+      }
+
+      if (state.touched && !resetOnInitialValuesChange) {
+        return;
+      }
+
+      initialValuesRef.current = initialValues;
+      reset();
+    }, [initialValues]);
+
+    // Run validation on context change
+    useEffect(() => {
       const { validationMode } = optionsWithDefaults;
 
-      if (touched && validationCount > 0 && validationMode !== Events.ON_SUBMIT) {
+      if (state.touched && state.validationCount > 0 && validationMode !== Events.ON_SUBMIT) {
         runValidation();
       }
 
@@ -134,12 +167,12 @@ const connectForm = options => Target => {
 
     // Context bag
     const formContext = {
-      values,
-      touched,
+      values: state.values,
+      touched: state.touched,
       emitChange,
       emitDidChange,
       emitEvent,
-      errors,
+      errors: state.errors,
       emitSubmit,
     };
 
