@@ -111,8 +111,6 @@ const connectForm = options => Target => {
           await dispatch({ type: Actions.UPDATE_FORM, payload: { touched: true, values: newValues } });
           await validateIfNeeded(type);
 
-          console.log(state);
-
           if (onChange) {
             onChange(name, value);
           }
