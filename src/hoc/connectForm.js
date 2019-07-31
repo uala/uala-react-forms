@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useReducer } from 'react';
 import { mergeDefaultOptions, shallowCompare } from '../utils';
 import { Provider } from '../context';
 import createSchema from '../schema';
 import connectFormPropTypes from './connectForm.propTypes';
 import * as Events from './connectForm.events';
+import * as Actions from './connectForm.actions';
+import urfReducer from './connectForm.reducer';
 
 /**
  * Connect the form properties, such schema, validation mode, etc. to the `Component`
@@ -42,21 +44,21 @@ const connectForm = options => Target => {
     const defaultValues = (schemaInterface && schemaInterface.getDefaults()) || {};
     const initialValuesRef = useRef(initialValues);
 
-    const [values, setValues] = useState({
-      ...defaultValues,
-      ...initialValuesRef.current,
+    const [state, dispatch] = useReducer(urfReducer, {
+      values: { ...defaultValues, ...initialValuesRef.current },
+      errors: null,
+      touched: false,
+      validationCount: 0,
     });
-    const [errors, setErrors] = useState(null);
-    const [touched, setTouched] = useState(false);
-    const [validationCount, setValidationCount] = useState(0);
 
-    let newValues = values;
-    let newErrors = errors;
+    let newValues = state.values;
+    let newErrors = state.errors;
 
     const reset = () => {
-      setErrors(null);
-      setValues(initialValuesRef.current);
-      setTouched(false);
+      dispatch({
+        type: Actions.UPDATE_FORM,
+        payload: { errors: null, values: initialValuesRef.current, touched: false },
+      });
     };
 
     // Validation
@@ -77,11 +79,11 @@ const connectForm = options => Target => {
     const runValidation = async () => {
       const validation = await schemaInterface.validate(newValues, context);
 
-      await setValidationCount(validationCount + 1);
+      await dispatch({ type: Actions.UPDATE_FORM, payload: { validationCount: state.validationCount + 1 } });
 
-      if (errors !== validation.errors) {
+      if (state.errors !== validation.errors) {
         newErrors = validation.errors;
-        await setErrors(newErrors);
+        await dispatch({ type: Actions.UPDATE_FORM, payload: { errors: newErrors } });
       }
     };
 
@@ -98,17 +100,18 @@ const connectForm = options => Target => {
           await validateIfNeeded(type);
 
           if (onSubmit && !newErrors) {
-            await setTouched(false);
-            onSubmit({ values });
+            await dispatch({ type: Actions.UPDATE_FORM, payload: { touched: false } });
+            onSubmit({ values: state.values });
           }
 
           break;
         case Events.ON_CHANGE:
-          newValues = { ...values, [name]: value };
+          newValues = { ...state.values, [name]: value };
 
-          await setTouched(true);
-          await setValues(newValues);
+          await dispatch({ type: Actions.UPDATE_FORM, payload: { touched: true, values: newValues } });
           await validateIfNeeded(type);
+
+          console.log(state);
 
           if (onChange) {
             onChange(name, value);
@@ -138,7 +141,7 @@ const connectForm = options => Target => {
         return;
       }
 
-      if (touched && !resetOnInitialValuesChange) {
+      if (state.touched && !resetOnInitialValuesChange) {
         return;
       }
 
@@ -146,11 +149,11 @@ const connectForm = options => Target => {
       reset();
     }, [initialValues]);
 
-    // Register validation
+    // Run validation on context change
     useEffect(() => {
       const { validationMode } = optionsWithDefaults;
 
-      if (touched && validationCount > 0 && validationMode !== Events.ON_SUBMIT) {
+      if (state.touched && state.validationCount > 0 && validationMode !== Events.ON_SUBMIT) {
         runValidation();
       }
 
@@ -166,12 +169,12 @@ const connectForm = options => Target => {
 
     // Context bag
     const formContext = {
-      values,
-      touched,
+      values: state.values,
+      touched: state.touched,
       emitChange,
       emitDidChange,
       emitEvent,
-      errors,
+      errors: state.errors,
       emitSubmit,
     };
 
