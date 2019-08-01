@@ -70,7 +70,7 @@ describe('connectForm', () => {
         return () => clearTimeout(timeout);
       }, []);
 
-      return <FormWithSchema initialValues={values} />;
+      return <FormWithSchema initialValues={values} resetOnInitialValuesChange />;
     };
 
     act(() => {
