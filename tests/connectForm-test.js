@@ -4,21 +4,20 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import { act, Simulate } from 'react-dom/test-utils';
 import { object, string } from 'yup';
 
-import { connectForm } from '../src';
-import connectFormElement from '../src/hoc/connectFormElement';
+import { connectForm, connectFormElement } from '../src';
+
+let node;
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+beforeEach(() => {
+  node = document.createElement('div');
+});
+
+afterEach(() => {
+  unmountComponentAtNode(node);
+});
 
 describe('connectForm', () => {
-  let node;
-  const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
-
-  beforeEach(() => {
-    node = document.createElement('div');
-  });
-
-  afterEach(() => {
-    unmountComponentAtNode(node);
-  });
-
   it('wrap with HOC without options', () => {
     const FormWithoutOptions = connectForm()(() => <div>Welcome to React components</div>);
 
@@ -70,7 +69,7 @@ describe('connectForm', () => {
         return () => clearTimeout(timeout);
       }, []);
 
-      return <FormWithSchema initialValues={values} />;
+      return <FormWithSchema initialValues={values} resetOnInitialValuesChange />;
     };
 
     act(() => {
@@ -100,12 +99,13 @@ describe('connectForm', () => {
     const FormWithSchema = connectForm({
       schema,
     })(({ values }) => (
-      <div>
+      <form>
         <Input />
         <div>{`${values.first_name ? `Welcome ${values.first_name}` : 'Welcome back!'}`}</div>
-      </div>
+      </form>
     ));
 
+    // eslint-disable-next-line react/prop-types
     const FormContainer = () => {
       const [values, setValues] = useState({});
 
@@ -135,5 +135,37 @@ describe('connectForm', () => {
     await delay(650);
 
     expect(form.children[1].innerHTML).toContain('Welcome Jhonny');
+  });
+
+  it('should emit submit event', async () => {
+    const SimpleForm = connectForm()(({ onSubmit, emitSubmit, submitCount }) => (
+      <form onSubmit={onSubmit}>
+        <input type="submit" value="submit" onClick={emitSubmit} />
+        {submitCount && <span>{`Submitted ${submitCount} ${submitCount === 1 ? 'time' : 'times'}`}</span>}
+      </form>
+    ));
+
+    const FormContainer = () => {
+      const [submitCount, setSubmitCount] = useState(0);
+
+      const handleSubmit = () => {
+        setSubmitCount(submitCount + 1);
+      };
+
+      return <SimpleForm onSubmit={handleSubmit} submitCount={submitCount} />;
+    };
+
+    act(() => {
+      render(<FormContainer />, node);
+    });
+
+    const form = node.children[0];
+    const submitBtn = form.children[0];
+
+    Simulate.click(submitBtn);
+    await delay(300);
+
+    expect(form.children.length).toBe(2);
+    expect(form.children[1].innerHTML).toContain('Submitted 1 time');
   });
 });
