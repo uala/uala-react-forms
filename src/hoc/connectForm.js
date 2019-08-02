@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useReducer } from 'react';
-import { mergeDefaultOptions, shallowCompare } from '../utils';
+import React, { useEffect, useReducer } from 'react';
+import { mergeDefaultOptions } from '../utils';
 import { Provider } from '../context';
 import createSchema from '../schema';
 import connectFormPropTypes from './connectForm.propTypes';
@@ -42,10 +42,9 @@ const connectForm = options => Target => {
     ...props
   }) {
     const defaultValues = (schemaInterface && schemaInterface.getDefaults()) || {};
-    const initialValuesRef = useRef(initialValues);
 
     const [state, dispatch] = useReducer(urfReducer, {
-      values: { ...defaultValues, ...initialValuesRef.current },
+      values: { ...defaultValues, ...initialValues },
       errors: null,
       touched: false,
       validationCount: 0,
@@ -57,7 +56,7 @@ const connectForm = options => Target => {
     const reset = () => {
       dispatch({
         type: Actions.UPDATE_FORM,
-        payload: { errors: null, values: initialValuesRef.current, touched: false },
+        payload: { errors: null, values: initialValues, touched: false },
       });
     };
 
@@ -135,15 +134,10 @@ const connectForm = options => Target => {
     };
 
     useEffect(() => {
-      if (shallowCompare(initialValuesRef.current, initialValues)) {
+      if (!resetOnInitialValuesChange) {
         return;
       }
 
-      if (state.touched && !resetOnInitialValuesChange) {
-        return;
-      }
-
-      initialValuesRef.current = initialValues;
       reset();
     }, [initialValues]);
 

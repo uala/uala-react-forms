@@ -2,7 +2,6 @@ import expect from 'expect';
 import { object, string, ref } from 'yup';
 
 import createSchema from '../src/schema';
-import { shallowCompare } from '../src/utils';
 
 describe('Create interface from yup schema', () => {
   it('Create', () => {
@@ -15,7 +14,7 @@ describe('Create interface from yup schema', () => {
 
     const values = schemaInterface.cast({ firstName: 'Frank' });
 
-    expect(shallowCompare(values, { firstName: 'Frank' })).toBe(true);
+    expect(values.firstName === 'Frank').toBe(true);
   });
 
   it('Cast with context', () => {
@@ -28,6 +27,6 @@ describe('Create interface from yup schema', () => {
 
     const values = schema.cast({ firstName: 'Frank' }, { originalLastName: 'Dewalt' });
 
-    expect(shallowCompare(values, { firstName: 'Frank', lastName: 'Dewalt' })).toBe(true);
+    expect(values.firstName === 'Frank' && values.lastName === 'Dewalt').toBe(true);
   });
 });
