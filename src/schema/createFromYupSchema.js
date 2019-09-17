@@ -11,12 +11,13 @@ import validateYupSchema from './validateYupSchema';
  */
 const createFromYupSchema = schema => ({
   validate: (values, context = {}) => validateYupSchema(schema, values, context),
-  getDefaults: (context = {}) => {
-    if (Object.keys(context).length === 0) {
-      return schema.default();
+  getDefaults: () => schema.default(),
+  cast: (values, context = null) => {
+    if (context) {
+      return schema.cast(values, { context });
     }
 
-    return schema.cast({}, { context });
+    return schema.cast(values);
   },
 });
 
