@@ -100,7 +100,7 @@ const connectForm = options => Target => {
 
           if (onSubmit && !newErrors) {
             await dispatch({ type: Actions.UPDATE_FORM, payload: { touched: false } });
-            onSubmit({ values: state.values });
+            onSubmit({ values: state.values, name, value });
           }
 
           break;
@@ -153,7 +153,7 @@ const connectForm = options => Target => {
     }, [context]);
 
     // Event emitters
-    const emitSubmit = () => emitEvent({ type: Events.ON_SUBMIT });
+    const emitSubmit = (name, value) => emitEvent({ type: Events.ON_SUBMIT, name, value });
 
     const emitChange = (name, value) => emitEvent({ type: Events.ON_CHANGE, name, value });
 
