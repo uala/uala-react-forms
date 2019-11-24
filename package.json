@@ -1,6 +1,6 @@
 {
   "name": "@uala/react-forms",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Make form clean, UI independent, validated",
   "main": "lib/index.js",
   "module": "es/index.js",
