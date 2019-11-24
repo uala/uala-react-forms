@@ -1,4 +1,4 @@
 const UPDATE_FORM = '@urf/action/updateForm';
+const REQUEST_SUBMIT = '@urf/action/requestSubmit';
 
-// eslint-disable-next-line import/prefer-default-export
-export { UPDATE_FORM };
+export { UPDATE_FORM, REQUEST_SUBMIT };
