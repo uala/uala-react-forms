@@ -19,4 +19,12 @@ describe('URF Reducer', () => {
     expect(Object.hasOwnProperty.call(state.values, 'name')).toBe(true);
     expect(state.values.name).toBe('Jim');
   });
+
+  it('should increment the submit count', () => {
+    const handleAction = { type: Actions.REQUEST_SUBMIT };
+    const state = urfReducer({ values: null, submitCount: 0 }, handleAction);
+
+    expect(state.values === null).toBe(true);
+    expect(state.submitCount).toBe(1);
+  });
 });
