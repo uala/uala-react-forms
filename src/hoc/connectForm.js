@@ -47,6 +47,7 @@ const connectForm = options => Target => {
       values: { ...defaultValues, ...initialValues },
       errors: null,
       touched: false,
+      submitCount: 0,
       validationCount: 0,
     });
 
@@ -72,7 +73,7 @@ const connectForm = options => Target => {
         return true;
       }
 
-      return eventType === validationMode;
+      return eventType === validationMode || (eventType === Events.ON_CHANGE && state.submitCount > 0);
     };
 
     const runValidation = async () => {
@@ -96,6 +97,7 @@ const connectForm = options => Target => {
     const emitEvent = async ({ type, name, value }) => {
       switch (type) {
         case Events.ON_SUBMIT:
+          await dispatch({ type: Actions.REQUEST_SUBMIT });
           await validateIfNeeded(type);
 
           if (onSubmit && !newErrors) {
