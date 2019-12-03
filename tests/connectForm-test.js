@@ -138,8 +138,8 @@ describe('connectForm', () => {
   });
 
   it('should emit submit event', async () => {
-    const SimpleForm = connectForm()(({ onSubmit, emitSubmit, submitCount }) => (
-      <form onSubmit={onSubmit}>
+    const SimpleForm = connectForm()(({ emitSubmit, submitCount }) => (
+      <form onSubmit={emitSubmit}>
         <input type="submit" value="submit" onClick={emitSubmit} />
         {submitCount && <span>{`Submitted ${submitCount} ${submitCount === 1 ? 'time' : 'times'}`}</span>}
       </form>
@@ -167,5 +167,35 @@ describe('connectForm', () => {
 
     expect(form.children.length).toBe(2);
     expect(form.children[1].innerHTML).toContain('Submitted 1 time');
+  });
+
+  it('should allow to set a custom external status', async () => {
+    const SimpleForm = connectForm()(({ emitSubmit, externalState }) => (
+      <form onSubmit={emitSubmit}>
+        <input type="submit" value="submit" onClick={emitSubmit} />
+        {!!externalState && <span>{`You have a new message from outer space: ${externalState.message}`}</span>}
+      </form>
+    ));
+
+    const FormContainer = () => {
+      const handleSubmit = ({ setExternalState }) => {
+        setExternalState({ message: 'enjoy!' });
+      };
+
+      return <SimpleForm onSubmit={handleSubmit} />;
+    };
+
+    act(() => {
+      render(<FormContainer />, node);
+    });
+
+    const form = node.children[0];
+    const submitBtn = form.children[0];
+
+    Simulate.click(submitBtn);
+    await delay(300);
+
+    expect(form.children.length).toBe(2);
+    expect(form.children[1].innerHTML).toContain('You have a new message from outer space: enjoy!');
   });
 });

@@ -49,6 +49,7 @@ const connectForm = options => Target => {
       touched: false,
       submitCount: 0,
       validationCount: 0,
+      externalState: undefined,
     });
 
     let newValues = state.values;
@@ -57,7 +58,14 @@ const connectForm = options => Target => {
     const reset = () => {
       dispatch({
         type: Actions.UPDATE_FORM,
-        payload: { errors: null, values: initialValues, touched: false },
+        payload: { errors: null, values: initialValues, touched: false, submitCount: 0, validationCount: 0 },
+      });
+    };
+
+    const setExternalState = externalState => {
+      dispatch({
+        type: Actions.UPDATE_FORM,
+        payload: { externalState },
       });
     };
 
@@ -102,7 +110,7 @@ const connectForm = options => Target => {
 
           if (onSubmit && !newErrors) {
             await dispatch({ type: Actions.UPDATE_FORM, payload: { touched: false } });
-            onSubmit({ values: state.values, name, value });
+            onSubmit({ values: state.values, name, value, setExternalState });
           }
 
           break;
@@ -163,13 +171,12 @@ const connectForm = options => Target => {
 
     // Context bag
     const formContext = {
-      values: state.values,
-      touched: state.touched,
+      ...state,
       emitChange,
       emitDidChange,
       emitEvent,
-      errors: state.errors,
       emitSubmit,
+      setExternalState,
     };
 
     return (
